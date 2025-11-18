@@ -1,4 +1,4 @@
-package com.glassgo.platform.paymentsandsubscriptions.services;
+package com.glassgo.platform.paymentsandsubscriptions.domain.model.services;
 
 import com.glassgo.platform.paymentsandsubscriptions.domain.model.aggregates.Subscription;
 import com.glassgo.platform.paymentsandsubscriptions.domain.model.commands.CreateSubscriptionCommand;

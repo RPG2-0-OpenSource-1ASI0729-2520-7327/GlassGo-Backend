@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public record TransactionResource(
         Long id,
+        Long subscriptionId,
         Double amount,
         String currency,
         Date paymentDate,

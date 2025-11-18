@@ -1,5 +1,11 @@
 package com.glassgo.platform.paymentsandsubscriptions.interfaces.rest.resources;
 
+/**
+ * Resource used to update a Subscription Plan via REST API.
+ * <p>
+ * Represents the payload accepted by the update plan endpoint. The compact
+ * constructor enforces required fields.
+ */
 public record UpdateSubscriptionPlanResource(
         Long subscriptionPlanId,
         String name,

@@ -1,5 +1,8 @@
 package com.glassgo.platform.paymentsandsubscriptions.domain.model.queries;
 
+/**
+ * Query to obtain all subscriptions belonging to a specific user.
+ */
 public record GetAllSubscriptionsByUserIdQuery(Long userId) {
     public GetAllSubscriptionsByUserIdQuery {
         if (userId == null)

@@ -2,6 +2,12 @@ package com.glassgo.platform.paymentsandsubscriptions.interfaces.rest.resources;
 
 import java.util.Date;
 
+/**
+ * Resource used to create a new Transaction via REST API.
+ * <p>
+ * This record represents the request payload for creating transactions and
+ * performs validation in the compact constructor.
+ */
 public record CreateTransactionResource(
         Long subscriptionId,
         Double amount,

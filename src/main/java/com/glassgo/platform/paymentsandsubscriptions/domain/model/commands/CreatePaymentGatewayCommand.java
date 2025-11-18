@@ -1,5 +1,8 @@
 package com.glassgo.platform.paymentsandsubscriptions.domain.model.commands;
 
+/**
+ * Command to create a new Payment Gateway.
+ */
 public record CreatePaymentGatewayCommand(
         String name,
         String apiUrl,

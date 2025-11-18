@@ -8,6 +8,12 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
 
+/**
+ * Aggregate representing a configured payment gateway.
+ * <p>
+ * Contains credentials and endpoint information necessary to process
+ * payments. Treat secretKey as sensitive data and avoid logging it.
+ */
 @Entity
 @Getter
 public class PaymentGateway extends AuditableAbstractAggregateRoot<PaymentGateway> {

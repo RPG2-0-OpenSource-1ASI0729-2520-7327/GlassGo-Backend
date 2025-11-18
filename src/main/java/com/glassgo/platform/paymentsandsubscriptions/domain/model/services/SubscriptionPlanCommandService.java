@@ -7,6 +7,9 @@ import com.glassgo.platform.paymentsandsubscriptions.domain.model.commands.Updat
 
 import java.util.Optional;
 
+/**
+ * Command service responsible for mutating Subscription Plans.
+ */
 public interface SubscriptionPlanCommandService {
     Long handle(CreateSubscriptionPlanCommand command);
     Optional<SubscriptionPlan> handle(UpdateSubscriptionPlanCommand command);

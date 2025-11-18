@@ -8,6 +8,9 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import org.apache.logging.log4j.util.Strings;
 
+/**
+ * Aggregate that models a Subscription Plan.
+ */
 @Entity
 @Getter
 public class SubscriptionPlan extends AuditableAbstractAggregateRoot<SubscriptionPlan> {

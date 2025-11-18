@@ -8,6 +8,12 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
+/**
+ * Base mapped superclass that provides auditing fields for entities.
+ * <p>
+ * Fields provided: id, createdAt and updatedAt. The class is configured to
+ * work with Spring Data JPA auditing (enable with @EnableJpaAuditing).
+ */
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public class AuditableModel {

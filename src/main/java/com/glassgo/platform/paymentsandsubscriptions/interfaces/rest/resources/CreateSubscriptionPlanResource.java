@@ -1,5 +1,11 @@
 package com.glassgo.platform.paymentsandsubscriptions.interfaces.rest.resources;
 
+/**
+ * Resource used to create a new Subscription Plan via REST API.
+ * <p>
+ * This record represents the request payload for creating plans and validates
+ * required fields in the compact constructor.
+ */
 public record CreateSubscriptionPlanResource(
         String name,
         String description,

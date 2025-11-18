@@ -7,6 +7,13 @@ import com.glassgo.platform.paymentsandsubscriptions.domain.model.commands.Updat
 
 import java.util.Optional;
 
+/**
+ * Command service that exposes mutating operations for Subscriptions.
+ * <p>
+ * Implementations should apply business rules and persist changes. Methods
+ * return either the identifier of the created resource, an optional updated
+ * aggregate, or void for delete operations.
+ */
 public interface SubscriptionCommandService {
     Long handle(CreateSubscriptionCommand command);
     Optional<Subscription> handle(UpdateSubscriptionCommand command);

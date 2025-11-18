@@ -1,5 +1,11 @@
 package com.glassgo.platform.paymentsandsubscriptions.interfaces.rest.resources;
 
+/**
+ * Resource used to update a Payment Gateway via REST API.
+ * <p>
+ * Represents the request body for updating gateway configuration. Compact
+ * constructor validates required fields.
+ */
 public record UpdatePaymentGatewayResource(
         Long paymentGatewayId,
         String name,

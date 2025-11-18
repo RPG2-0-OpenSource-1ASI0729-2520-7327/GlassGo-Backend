@@ -1,5 +1,8 @@
 package com.glassgo.platform.paymentsandsubscriptions.domain.model.commands;
 
+/**
+ * Command to update an existing Subscription Plan.
+ */
 public record UpdateSubscriptionPlanCommand(
         Long subscriptionPlanId,
         String name,

@@ -7,6 +7,9 @@ import com.glassgo.platform.paymentsandsubscriptions.domain.model.commands.Updat
 
 import java.util.Optional;
 
+/**
+ * Command service for mutating Payment Gateway entities.
+ */
 public interface PaymentGatewayCommandService {
     Long handle(CreatePaymentGatewayCommand command);
     Optional<PaymentGateway> handle(UpdatePaymentGatewayCommand command);

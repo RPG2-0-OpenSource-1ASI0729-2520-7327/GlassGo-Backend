@@ -2,6 +2,9 @@ package com.glassgo.platform.paymentsandsubscriptions.domain.model.commands;
 
 import java.util.Date;
 
+/**
+ * Command to create a new Transaction in the domain.
+ */
 public record CreateTransactionCommand(
         Long subscriptionId,
         Double amount,

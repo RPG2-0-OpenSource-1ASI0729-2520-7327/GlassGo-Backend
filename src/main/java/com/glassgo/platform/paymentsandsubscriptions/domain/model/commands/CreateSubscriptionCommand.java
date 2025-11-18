@@ -2,6 +2,12 @@ package com.glassgo.platform.paymentsandsubscriptions.domain.model.commands;
 
 import java.util.Date;
 
+/**
+ * Command to create a new Subscription in the domain layer.
+ * <p>
+ * This record carries the data required by the application service to create
+ * a subscription aggregate.
+ */
 public record CreateSubscriptionCommand(
         Long userId,
         Long planId,

@@ -7,6 +7,9 @@ import com.glassgo.platform.paymentsandsubscriptions.domain.model.commands.Updat
 
 import java.util.Optional;
 
+/**
+ * Command service responsible for mutating Transaction aggregates.
+ */
 public interface TransactionCommandService {
     Long handle(CreateTransactionCommand command);
     Optional<Transaction> handle(UpdateTransactionCommand command);

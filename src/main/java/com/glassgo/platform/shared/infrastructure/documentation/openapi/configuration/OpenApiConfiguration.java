@@ -11,6 +11,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * Configuration class that exposes the project's OpenAPI (Swagger) definition.
+ * <p>
+ * The `OpenAPI` bean created here is used by springdoc to generate the API
+ * documentation for controllers and resources.
+ */
 @Configuration
 public class OpenApiConfiguration {
     @Value("${spring.application.name}")

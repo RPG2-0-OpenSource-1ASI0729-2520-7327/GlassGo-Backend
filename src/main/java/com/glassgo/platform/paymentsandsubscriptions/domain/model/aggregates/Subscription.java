@@ -10,6 +10,12 @@ import org.apache.logging.log4j.util.Strings;
 
 import java.util.Date;
 
+/**
+ * Aggregate representing a user's Subscription.
+ * <p>
+ * Encapsulates subscription state and provides constructors and behavior used
+ * by the application services to create and update subscriptions.
+ */
 @Entity
 @Getter
 public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {

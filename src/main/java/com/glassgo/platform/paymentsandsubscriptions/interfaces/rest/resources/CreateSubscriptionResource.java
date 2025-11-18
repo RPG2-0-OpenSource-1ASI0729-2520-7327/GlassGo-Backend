@@ -2,6 +2,13 @@ package com.glassgo.platform.paymentsandsubscriptions.interfaces.rest.resources;
 
 import java.util.Date;
 
+/**
+ * Resource used to create a new Subscription via REST API.
+ * <p>
+ * This immutable record represents the payload accepted by the endpoint that
+ * creates subscriptions. Field validation is performed in the compact constructor.
+ * Use this resource as the request body for the corresponding POST operation.
+ */
 public record CreateSubscriptionResource(
         Long userId,
         Long planId,

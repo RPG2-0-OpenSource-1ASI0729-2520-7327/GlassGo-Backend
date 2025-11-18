@@ -10,6 +10,9 @@ import org.apache.logging.log4j.util.Strings;
 
 import java.util.Date;
 
+/**
+ * Aggregate representing a payment Transaction.
+ */
 @Entity
 @Getter
 public class Transaction extends AuditableAbstractAggregateRoot<Transaction> {

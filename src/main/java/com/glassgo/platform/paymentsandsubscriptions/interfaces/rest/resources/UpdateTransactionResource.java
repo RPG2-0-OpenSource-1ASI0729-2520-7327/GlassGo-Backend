@@ -1,5 +1,11 @@
 package com.glassgo.platform.paymentsandsubscriptions.interfaces.rest.resources;
 
+/**
+ * Resource used to update a Transaction via REST API.
+ * <p>
+ * This record represents the request body accepted by the transaction update
+ * endpoint and performs basic validation in the compact constructor.
+ */
 public record UpdateTransactionResource(
         Long transactionId,
         Double amount,

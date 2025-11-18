@@ -4,6 +4,9 @@ import com.glassgo.platform.paymentsandsubscriptions.domain.model.aggregates.Pay
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+/**
+ * JPA repository for PaymentGateway aggregates.
+ */
 @Repository
 public interface PaymentGatewayRepository extends JpaRepository<PaymentGateway, Long> {
 

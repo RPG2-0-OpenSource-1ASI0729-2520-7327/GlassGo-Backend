@@ -1,5 +1,8 @@
 package com.glassgo.platform.paymentsandsubscriptions.domain.model.commands;
 
+/**
+ * Command to create a new Subscription Plan.
+ */
 public record CreateSubscriptionPlanCommand(
         String name,
         String description,

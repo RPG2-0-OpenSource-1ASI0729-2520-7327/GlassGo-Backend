@@ -1,5 +1,10 @@
 package com.glassgo.platform.paymentsandsubscriptions.interfaces.rest.resources;
 
+/**
+ * Resource used to create a new Payment Gateway via REST API.
+ * <p>
+ * Validation is applied in the compact constructor to ensure required fields are provided.
+ */
 public record CreatePaymentGatewayResource(
         String name,
         String apiUrl,

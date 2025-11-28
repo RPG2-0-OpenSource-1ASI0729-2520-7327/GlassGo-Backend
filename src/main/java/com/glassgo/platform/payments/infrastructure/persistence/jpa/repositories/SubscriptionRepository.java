@@ -1,0 +1,17 @@
+package com.glassgo.platform.payments.infrastructure.persistence.jpa.repositories;
+
+import com.glassgo.platform.payments.domain.model.aggregates.Subscription;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+/**
+ * JPA repository for Subscription aggregates.
+ */
+@Repository
+public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
+    List<Subscription> findByPlanId(Long planId);
+    List<Subscription> findByStatus(String status);
+    List<Subscription> findByUserId(Long userId);
+}

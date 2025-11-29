@@ -1,18 +1,18 @@
 package com.glassgo.platform.payments.interfaces.rest.transform;
 
 import com.glassgo.platform.payments.domain.model.commands.CreateSubscriptionPlanCommand;
-import com.glassgo.platform.payments.interfaces.rest.resources.SubscriptionPlanResource;
+import com.glassgo.platform.payments.interfaces.rest.resources.CreateSubscriptionPlanResource;
 
 /**
- * Assembler to convert {@link SubscriptionPlanResource} to {@link CreateSubscriptionPlanCommand}.
+ * Assembler to convert {@link CreateSubscriptionPlanResource} to {@link CreateSubscriptionPlanCommand}.
  */
 public class CreateSubscriptionPlanCommandFromResourceAssembler {
     /**
-     * Converts a {@link SubscriptionPlanResource} to a {@link CreateSubscriptionPlanCommand}.
-     * @param resource - The subscription plan resource.
+     * Converts a {@link CreateSubscriptionPlanResource} to a {@link CreateSubscriptionPlanCommand}.
+     * @param resource - The create subscription plan resource.
      * @return - The create subscription plan command.
      */
-    public static CreateSubscriptionPlanCommand toCommandFromResource(SubscriptionPlanResource resource) {
+    public static CreateSubscriptionPlanCommand toCommandFromResource(CreateSubscriptionPlanResource resource) {
         return new CreateSubscriptionPlanCommand(
                 resource.name(),
                 resource.description(),

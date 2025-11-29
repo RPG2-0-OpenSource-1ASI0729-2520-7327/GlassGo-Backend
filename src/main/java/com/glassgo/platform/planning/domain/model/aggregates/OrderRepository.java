@@ -18,7 +18,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
 
     List<Order> findByStatus(Order.OrderStatus status);
 
-    @Query("SELECT o FROM Order o WHERE o.deliveryInfo.deliveryDate.value = :deliveryDate")
+    @Query("SELECT o FROM Order o WHERE o.deliveryInfo.deliveryDate = :deliveryDate")
     List<Order> findByDeliveryDate(@Param("deliveryDate") LocalDate deliveryDate);
 
     @Query("SELECT o FROM Order o WHERE o.customerName LIKE %:customerName% OR o.customerEmail LIKE %:customerEmail%")

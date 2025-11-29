@@ -33,6 +33,8 @@ If you manually switch to a different parent and actually want the inheritance, 
 
 ### Instructions to run the application:
 
+Change password in application.properties to the one from your MySQL database.
+
 Run in src/main/java/com/glassgo/platform/GlassgoPlatformApplication.java 
 
 The public class of GlassgoPlatformApplication

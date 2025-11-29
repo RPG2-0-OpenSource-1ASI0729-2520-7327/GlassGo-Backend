@@ -1,0 +1,12 @@
+package com.glassgo.platform.clients.interfaces.rest.resources;
+
+public record ClientResource(
+        Long id,
+        Long userId,
+        Long subscriptionId,
+        String firstName,
+        String lastName,
+        String email,
+        String phone
+) {
+}

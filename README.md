@@ -29,6 +29,14 @@ parent.
 To prevent this, the project POM contains empty overrides for these elements.
 If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
 
+## Running the Application ( Important )
+
+### Instructions to run the application:
+
+Run in src/main/java/com/glassgo/platform/GlassgoPlatformApplication.java 
+
+The public class of GlassgoPlatformApplication
+
 ### Link de Swagger
 
 http://localhost:8080/swagger-ui/index.html

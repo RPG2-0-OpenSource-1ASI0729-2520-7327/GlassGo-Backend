@@ -19,9 +19,14 @@ import java.util.Date;
 import java.util.function.Function;
 
 /**
- * Token service implementation for JWT tokens.
- * This class is responsible for generating and validating JWT tokens.
- * It uses the secret and expiration days from the application.properties file.
+ * Infrastructure implementation of JWT token service for secure authentication.
+ * <p>
+ * This service provides concrete implementation of token generation, validation, and parsing
+ * using JSON Web Tokens (JWT). It handles Bearer token extraction from HTTP requests and
+ * ensures secure token-based authentication with configurable expiration and cryptographic signing.
+ * </p>
+ *
+ * @see BearerTokenService
  */
 @Service
 public class TokenServiceImpl implements BearerTokenService {
@@ -40,9 +45,14 @@ public class TokenServiceImpl implements BearerTokenService {
     private int expirationDays;
 
     /**
-     * This method generates a JWT token from an authentication object
-     * @param authentication the authentication object
-     * @return String the JWT token
+     * Generates a JWT token from an Authentication object.
+     * <p>
+     * This method extracts the username from the authentication principal and creates
+     * a signed JWT token with default expiration settings.
+     * </p>
+     *
+     * @param authentication the Spring Security Authentication object containing user details
+     * @return a JWT token string for the authenticated user
      * @see Authentication
      */
     @Override
@@ -51,9 +61,14 @@ public class TokenServiceImpl implements BearerTokenService {
     }
 
     /**
-     * This method generates a JWT token from a username
-     * @param username the username
-     * @return String the JWT token
+     * Generates a JWT token for the specified username.
+     * <p>
+     * This method creates a signed JWT token containing the username as the subject,
+     * with standard claims like issued-at and expiration dates.
+     * </p>
+     *
+     * @param username the username to include in the token's subject claim
+     * @return a JWT token string representing the user
      */
     public String generateToken(String username) {
         return buildTokenWithDefaultParameters(username);
@@ -78,9 +93,15 @@ public class TokenServiceImpl implements BearerTokenService {
     }
 
     /**
-     * This method extracts the username from a JWT token
-     * @param token the token
-     * @return String the username
+     * Extracts the username from a JWT token.
+     * <p>
+     * This method parses the token and retrieves the subject claim, which contains the username.
+     * It verifies the token's signature before extracting claims.
+     * </p>
+     *
+     * @param token the JWT token to extract the username from
+     * @return the username contained in the token's subject claim
+     * @throws RuntimeException if the token is invalid or cannot be parsed
      */
     @Override
     public String getUsernameFromToken(String token) {
@@ -88,9 +109,15 @@ public class TokenServiceImpl implements BearerTokenService {
     }
 
     /**
-     * This method validates a JWT token
-     * @param token the token
-     * @return boolean true if the token is valid, false otherwise
+     * Validates the integrity and expiration of a JWT token.
+     * <p>
+     * This method verifies the token's signature, checks for expiration, and ensures
+     * the token structure is valid. It logs specific error messages for different
+     * types of validation failures.
+     * </p>
+     *
+     * @param token the JWT token to validate
+     * @return true if the token is valid and not expired, false otherwise
      */
     @Override
     public boolean validateToken(String token) {
@@ -158,6 +185,17 @@ public class TokenServiceImpl implements BearerTokenService {
         return request.getHeader(AUTHORIZATION_PARAMETER_NAME);
     }
 
+    /**
+     * Extracts the Bearer token from an HTTP request.
+     * <p>
+     * This method retrieves the Authorization header from the request, checks if it contains
+     * a Bearer token, and extracts the token value. Returns null if no valid Bearer token
+     * is present in the request.
+     * </p>
+     *
+     * @param request the HttpServletRequest containing the authorization header
+     * @return the JWT token string if present and valid, null otherwise
+     */
     @Override
     public String getBearerTokenFrom(HttpServletRequest request) {
         String parameter = getAuthorizationParameterFrom(request);

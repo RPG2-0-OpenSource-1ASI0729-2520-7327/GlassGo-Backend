@@ -13,6 +13,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * PaymentsController handles payment-related REST endpoints in the DDD architecture.
+ * It provides operations for managing transactions, subscriptions, subscription plans,
+ * and payment gateways.
+ */
 @RestController
 @RequestMapping(value = "/api/v1/payments", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Payments", description = "Payments Management Endpoints")

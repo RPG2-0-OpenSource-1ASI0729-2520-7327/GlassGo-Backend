@@ -12,8 +12,12 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 /**
- * This class is responsible for providing the user details to the Spring Security framework.
- * It implements the UserDetails interface.
+ * Spring Security UserDetails implementation for the Identity and Access Management (IAM) bounded context.
+ * <p>
+ * This class adapts the domain User aggregate to Spring Security's UserDetails interface,
+ * providing user authentication and authorization information. It extracts roles from the
+ * User aggregate and converts them into GrantedAuthority objects for security framework integration.
+ * </p>
  */
 @Getter
 @EqualsAndHashCode
@@ -29,10 +33,15 @@ public class UserDetailsImpl implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
 
     /**
-     * This constructor initializes the UserDetailsImpl object.
-     * @param username The username.
-     * @param password The password.
-     * @param authorities The authorities.
+     * Constructs a UserDetailsImpl with the specified authentication details.
+     * <p>
+     * This constructor sets up a user with full account status (non-expired, non-locked,
+     * credentials non-expired, and enabled) suitable for active users.
+     * </p>
+     *
+     * @param username the username of the user
+     * @param password the password of the user
+     * @param authorities the collection of granted authorities (roles)
      */
     public UserDetailsImpl(String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this.username = username;
@@ -45,9 +54,14 @@ public class UserDetailsImpl implements UserDetails {
     }
 
     /**
-     * This method is responsible for building the UserDetailsImpl object from the User object.
-     * @param user The user object.
-     * @return The UserDetailsImpl object.
+     * Factory method to build UserDetailsImpl from a User domain aggregate.
+     * <p>
+     * This method extracts the username, password, and roles from the User aggregate,
+     * converting roles into SimpleGrantedAuthority objects for Spring Security.
+     * </p>
+     *
+     * @param user the User aggregate to convert
+     * @return a new UserDetailsImpl instance with the user's authentication details
      */
     public static UserDetailsImpl build(User user) {
         var authorities = user.getRoles().stream()

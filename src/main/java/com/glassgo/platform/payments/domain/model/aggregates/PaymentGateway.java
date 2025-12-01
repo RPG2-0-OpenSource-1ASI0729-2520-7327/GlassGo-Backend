@@ -36,6 +36,11 @@ public class PaymentGateway extends AuditableAbstractAggregateRoot<PaymentGatewa
         this.secretKey = Strings.EMPTY;
     }
 
+    /**
+     * Constructs a new PaymentGateway from the given command.
+     *
+     * @param command the command containing payment gateway details
+     */
     public PaymentGateway(CreatePaymentGatewayCommand command) {
         this.name = command.name();
         this.apiUrl = command.apiUrl();
@@ -43,6 +48,12 @@ public class PaymentGateway extends AuditableAbstractAggregateRoot<PaymentGatewa
         this.secretKey = command.secretKey();
     }
 
+    /**
+     * Updates the payment gateway information based on the given command.
+     *
+     * @param command the command containing updated payment gateway details
+     * @return the updated payment gateway
+     */
     public PaymentGateway updateInformation(UpdatePaymentGatewayCommand command) {
         this.name = command.name();
         this.apiUrl = command.apiUrl();

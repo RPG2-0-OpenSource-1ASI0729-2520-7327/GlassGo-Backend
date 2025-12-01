@@ -8,6 +8,13 @@ import java.util.Date;
  * This immutable record represents the payload accepted by the endpoint that
  * creates subscriptions. Field validation is performed in the compact constructor.
  * Use this resource as the request body for the corresponding POST operation.
+ *
+ * @param userId    the user ID
+ * @param planId    the plan ID
+ * @param status    the subscription status
+ * @param startDate the start date
+ * @param endDate   the end date
+ * @param autoRenew whether auto-renew is enabled
  */
 public record CreateSubscriptionResource(
         Long userId,

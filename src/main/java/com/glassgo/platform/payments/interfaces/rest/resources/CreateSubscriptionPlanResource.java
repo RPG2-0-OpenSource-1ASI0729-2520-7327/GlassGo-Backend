@@ -5,6 +5,11 @@ package com.glassgo.platform.payments.interfaces.rest.resources;
  * <p>
  * This record represents the request payload for creating plans and validates
  * required fields in the compact constructor.
+ *
+ * @param name           the name of the plan
+ * @param description    the description of the plan
+ * @param price          the price of the plan
+ * @param durationMonths the duration in months
  */
 public record CreateSubscriptionPlanResource(
         String name,

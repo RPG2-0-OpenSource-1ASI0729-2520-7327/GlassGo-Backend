@@ -8,6 +8,15 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for querying orders in the application.
+ * Provides methods to retrieve orders based on various criteria such as order ID, order number,
+ * customer name, customer email, status, and delivery date.
+ * <p>
+ * This class acts as an intermediary between the presentation layer and the domain layer,
+ * facilitating the retrieval of order data as per the business requirements.
+ * </p>
+ */
 @Service
 public class OrderQueryService {
 

@@ -12,12 +12,13 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * Unauthorized Request Handler.
+ * Spring Security AuthenticationEntryPoint for handling unauthorized requests in the Identity and Access Management (IAM) bounded context.
  * <p>
- * This class is responsible for handling unauthorized requests.
- * It is used by the Spring Security framework to handle unauthorized requests.
- * It implements the AuthenticationEntryPoint interface.
+ * This component handles authentication failures by sending appropriate HTTP responses
+ * for unauthorized access attempts. It logs security events and returns a 401 Unauthorized
+ * status to clients when authentication is required but not provided or invalid.
  * </p>
+ *
  * @see AuthenticationEntryPoint
  */
 
@@ -27,10 +28,18 @@ public class UnauthorizedRequestHandlerEntryPoint implements AuthenticationEntry
     private static final Logger LOGGER = LoggerFactory.getLogger(UnauthorizedRequestHandlerEntryPoint.class);
 
     /**
-     * This method is called by the Spring Security framework when an unauthorized request is detected.
-     * @param request The request that caused the exception
-     * @param response The response that will be sent to the client
-     * @param authenticationException The exception that caused the invocation
+     * Handles unauthorized access attempts by logging the error and sending an HTTP 401 response.
+     * <p>
+     * This method is invoked by Spring Security when an authentication exception occurs,
+     * such as missing or invalid credentials. It ensures that unauthorized requests are
+     * properly logged and clients receive appropriate error responses.
+     * </p>
+     *
+     * @param request the HTTP request that triggered the authentication exception
+     * @param response the HTTP response to be sent to the client
+     * @param authenticationException the exception detailing the authentication failure
+     * @throws IOException if an I/O error occurs while sending the response
+     * @throws ServletException if a servlet error occurs
      */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException {

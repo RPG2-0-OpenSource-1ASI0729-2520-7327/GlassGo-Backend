@@ -4,6 +4,14 @@ import java.util.Date;
 
 /**
  * Command to create a new Transaction in the domain.
+ *
+ * @param subscriptionId        the ID of the subscription
+ * @param amount                the amount of the transaction
+ * @param currency              the currency of the transaction
+ * @param paymentDate           the date of the payment
+ * @param paymentMethod         the method of payment
+ * @param status                the status of the transaction
+ * @param externalTransactionId the external ID of the transaction
  */
 public record CreateTransactionCommand(
         Long subscriptionId,

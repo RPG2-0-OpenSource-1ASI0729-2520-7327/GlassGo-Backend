@@ -2,6 +2,11 @@ package com.glassgo.platform.payments.domain.model.commands;
 
 /**
  * Command to create a new Subscription Plan.
+ *
+ * @param name           the name of the subscription plan
+ * @param description    the description of the subscription plan
+ * @param price          the price of the subscription plan
+ * @param durationMonths the duration in months
  */
 public record CreateSubscriptionPlanCommand(
         String name,

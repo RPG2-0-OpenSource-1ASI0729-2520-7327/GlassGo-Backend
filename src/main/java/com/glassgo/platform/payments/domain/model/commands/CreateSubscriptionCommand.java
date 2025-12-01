@@ -7,6 +7,13 @@ import java.util.Date;
  * <p>
  * This record carries the data required by the application service to create
  * a subscription aggregate.
+ *
+ * @param userId    the ID of the user
+ * @param planId    the ID of the subscription plan
+ * @param status    the status of the subscription
+ * @param startDate the start date of the subscription
+ * @param endDate   the end date of the subscription
+ * @param autoRenew whether the subscription auto-renews
  */
 public record CreateSubscriptionCommand(
         Long userId,

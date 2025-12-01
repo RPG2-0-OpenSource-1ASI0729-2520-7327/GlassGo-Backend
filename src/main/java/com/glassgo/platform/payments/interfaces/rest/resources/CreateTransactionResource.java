@@ -7,6 +7,14 @@ import java.util.Date;
  * <p>
  * This record represents the request payload for creating transactions and
  * performs validation in the compact constructor.
+ *
+ * @param subscriptionId        the subscription ID
+ * @param amount                the transaction amount
+ * @param currency              the transaction currency
+ * @param paymentDate           the payment date
+ * @param paymentMethod         the payment method
+ * @param status                the transaction status
+ * @param externalTransactionId the external transaction ID
  */
 public record CreateTransactionResource(
         Long subscriptionId,

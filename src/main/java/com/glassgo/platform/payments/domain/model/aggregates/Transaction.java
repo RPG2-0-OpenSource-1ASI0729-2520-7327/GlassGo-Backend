@@ -47,6 +47,11 @@ public class Transaction extends AuditableAbstractAggregateRoot<Transaction> {
         this.externalTransactionId = Strings.EMPTY;
     }
 
+    /**
+     * Constructs a new Transaction from the given command.
+     *
+     * @param command the command containing transaction details
+     */
     public Transaction(CreateTransactionCommand command) {
         this.subscriptionId = command.subscriptionId();
         this.amount = command.amount();
@@ -57,6 +62,12 @@ public class Transaction extends AuditableAbstractAggregateRoot<Transaction> {
         this.externalTransactionId = command.externalTransactionId();
     }
 
+    /**
+     * Updates the transaction information based on the given command.
+     *
+     * @param command the command containing updated transaction details
+     * @return the updated transaction
+     */
     public Transaction updateInformation(UpdateTransactionCommand command) {
         this.amount = command.amount();
         this.currency = command.currency();

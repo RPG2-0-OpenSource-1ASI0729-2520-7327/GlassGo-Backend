@@ -1,5 +1,14 @@
 package com.glassgo.platform.payments.domain.model.commands;
 
+/**
+ * Command to update an existing Payment Gateway.
+ *
+ * @param paymentGatewayId the ID of the payment gateway to update
+ * @param name             the new name
+ * @param apiUrl           the new API URL
+ * @param clientId         the new client ID
+ * @param secretKey        the new secret key
+ */
 public record UpdatePaymentGatewayCommand(
         Long paymentGatewayId,
         String name,

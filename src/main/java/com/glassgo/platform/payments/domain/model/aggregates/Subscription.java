@@ -46,6 +46,11 @@ public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
         this.autoRenew = false;
     }
 
+    /**
+     * Constructs a new Subscription from the given command.
+     *
+     * @param command the command containing subscription details
+     */
     public Subscription(CreateSubscriptionCommand command) {
         this.userId = command.userId();
         this.planId = command.planId();
@@ -55,6 +60,12 @@ public class Subscription extends AuditableAbstractAggregateRoot<Subscription> {
         this.autoRenew = command.autoRenew();
     }
 
+    /**
+     * Updates the subscription information based on the given command.
+     *
+     * @param command the command containing updated subscription details
+     * @return the updated subscription
+     */
     public Subscription updateInformation(UpdateSubscriptionCommand command) {
         this.planId = command.planId();
         this.status = command.status();

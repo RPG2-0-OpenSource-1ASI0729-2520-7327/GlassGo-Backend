@@ -12,25 +12,38 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Implementation of {@link UserQueryService} interface.
+ * Application Service implementation for handling user-related queries in the Identity and Access Management (IAM) bounded context.
+ * <p>
+ * This service orchestrates the execution of queries that retrieve user data, coordinating between
+ * the domain layer and persistence infrastructure. It provides read-only access to user information
+ * for use in application logic, authentication, and user management interfaces.
+ * </p>
+ *
+ * @see UserQueryService
  */
 @Service
 public class UserQueryServiceImpl implements UserQueryService {
     private final UserRepository userRepository;
 
     /**
-     * Constructor.
+     * Constructs a new UserQueryServiceImpl with the required dependencies.
      *
-     * @param userRepository {@link UserRepository} instance.
+     * @param userRepository the repository for user persistence operations
      */
     public UserQueryServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     /**
-     * This method is used to handle {@link GetAllUsersQuery} query.
-     * @param query {@link GetAllUsersQuery} instance.
-     * @return {@link List} of {@link User} instances.
+     * Handles the query to retrieve all users from the system.
+     * <p>
+     * This method processes the {@link GetAllUsersQuery} by delegating to the repository
+     * to fetch all persisted users. The result is typically used for administrative dashboards
+     * or reporting, and should be accessed with appropriate authorization.
+     * </p>
+     *
+     * @param query the {@link GetAllUsersQuery} specifying the retrieval criteria
+     * @return a list of all {@link User} entities in the system
      * @see GetAllUsersQuery
      */
     @Override
@@ -39,9 +52,15 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     /**
-     * This method is used to handle {@link GetUserByIdQuery} query.
-     * @param query {@link GetUserByIdQuery} instance.
-     * @return {@link Optional} of {@link User} instance.
+     * Handles the query to retrieve a specific user by their ID.
+     * <p>
+     * This method processes the {@link GetUserByIdQuery} by searching for a user
+     * matching the provided unique identifier. It returns an Optional to handle cases
+     * where the user does not exist.
+     * </p>
+     *
+     * @param query the {@link GetUserByIdQuery} containing the user ID to search for
+     * @return an {@link Optional} containing the {@link User} entity if found, or empty otherwise
      * @see GetUserByIdQuery
      */
     @Override
@@ -50,9 +69,15 @@ public class UserQueryServiceImpl implements UserQueryService {
     }
 
     /**
-     * This method is used to handle {@link GetUserByUsernameQuery} query.
-     * @param query {@link GetUserByUsernameQuery} instance.
-     * @return {@link Optional} of {@link User} instance.
+     * Handles the query to retrieve a specific user by their username.
+     * <p>
+     * This method processes the {@link GetUserByUsernameQuery} by searching for a user
+     * matching the provided username. It is commonly used during authentication processes
+     * or for user profile retrieval.
+     * </p>
+     *
+     * @param query the {@link GetUserByUsernameQuery} containing the username to search for
+     * @return an {@link Optional} containing the {@link User} entity if found, or empty otherwise
      * @see GetUserByUsernameQuery
      */
     @Override

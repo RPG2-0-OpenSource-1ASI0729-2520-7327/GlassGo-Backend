@@ -2,6 +2,12 @@ package com.glassgo.platform.payments.domain.model.commands;
 
 /**
  * Command to update an existing Transaction.
+ *
+ * @param transactionId  the ID of the transaction to update
+ * @param amount         the new amount
+ * @param currency       the new currency
+ * @param paymentMethod  the new payment method
+ * @param status         the new status
  */
 public record UpdateTransactionCommand(
         Long transactionId,

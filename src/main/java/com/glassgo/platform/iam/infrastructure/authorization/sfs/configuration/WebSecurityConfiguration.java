@@ -22,11 +22,13 @@ import org.springframework.web.cors.CorsConfiguration;
 import java.util.List;
 
 /**
- * Web Security Configuration.
+ * Spring Security configuration for the Identity and Access Management (IAM) bounded context.
  * <p>
- * This class is responsible for configuring the web security.
- * It enables the method security and configures the security filter chain.
- * It includes the authentication manager, the authentication provider, the password encoder and the authentication entry point.
+ * This configuration class sets up comprehensive web security for the application, including
+ * JWT-based authentication, CORS settings, and authorization rules. It configures stateless
+ * session management, disables CSRF for API endpoints, and establishes the security filter chain
+ * with Bearer token authentication. The configuration ensures secure access to protected resources
+ * while allowing public access to authentication and documentation endpoints.
  * </p>
  */
 @Configuration
@@ -42,8 +44,13 @@ public class WebSecurityConfiguration {
     private final AuthenticationEntryPoint unauthorizedRequestHandler;
 
     /**
-     * This method creates the Bearer Authorization Request Filter.
-     * @return The Bearer Authorization Request Filter
+     * Creates the Bearer Authorization Request Filter bean.
+     * <p>
+     * This filter intercepts incoming requests to validate JWT tokens and set up
+     * the security context for authenticated users.
+     * </p>
+     *
+     * @return the configured BearerAuthorizationRequestFilter
      * @see BearerAuthorizationRequestFilter
      */
     @Bean
@@ -52,10 +59,14 @@ public class WebSecurityConfiguration {
     }
 
     /**
-     * This method creates the authentication manager.
-     * @param authenticationConfiguration The {@link AuthenticationConfiguration} object with the authentication configuration
-     * @return The {@link AuthenticationManager} instance from the authentication configuration
+     * Creates the AuthenticationManager bean.
+     * <p>
+     * This manager handles authentication requests and coordinates with authentication providers.
+     * </p>
      *
+     * @param authenticationConfiguration the Spring Security authentication configuration
+     * @return the AuthenticationManager instance
+     * @throws Exception if configuration fails
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
@@ -63,8 +74,13 @@ public class WebSecurityConfiguration {
     }
 
     /**
-     * This method creates the authentication provider.
-     * @return The {@link DaoAuthenticationProvider} authentication provider with the user details service and the password encoder
+     * Creates the DaoAuthenticationProvider bean.
+     * <p>
+     * This provider handles username/password authentication using the configured
+     * UserDetailsService and password encoder.
+     * </p>
+     *
+     * @return the configured DaoAuthenticationProvider
      */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -74,8 +90,12 @@ public class WebSecurityConfiguration {
     }
 
     /**
-     * This method creates the password encoder.
-     * @return The {@link PasswordEncoder} instance with the hashing service
+     * Creates the PasswordEncoder bean.
+     * <p>
+     * This encoder uses the BCrypt hashing service for secure password encoding and verification.
+     * </p>
+     *
+     * @return the PasswordEncoder instance
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -83,11 +103,16 @@ public class WebSecurityConfiguration {
     }
 
     /**
-     * This method creates the security filter chain.
-     * It also configures the http security.
+     * Creates the SecurityFilterChain bean with comprehensive security configuration.
+     * <p>
+     * This method configures HTTP security with CORS support, disables CSRF, sets up
+     * stateless session management, defines authorization rules for different endpoints,
+     * and integrates the authentication provider and Bearer token filter.
+     * </p>
      *
-     * @param http The {@link HttpSecurity} object to configure with the security filter chain
-     * @return The {@link SecurityFilterChain} instance with the application http security configuration
+     * @param http the HttpSecurity object to configure
+     * @return the configured SecurityFilterChain
+     * @throws Exception if configuration fails
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -117,11 +142,15 @@ public class WebSecurityConfiguration {
     }
 
     /**
-     * This is the constructor of the class.
-     * @param userDetailsService The user details service
-     * @param tokenService The token service
-     * @param hashingService The hashing service
-     * @param authenticationEntryPoint The authentication entry point
+     * Constructor for WebSecurityConfiguration.
+     * <p>
+     * Initializes the configuration with required dependencies for security setup.
+     * </p>
+     *
+     * @param userDetailsService the service for loading user details
+     * @param tokenService the service for JWT token operations
+     * @param hashingService the service for password hashing
+     * @param authenticationEntryPoint the handler for unauthorized requests
      */
     public WebSecurityConfiguration(@Qualifier("defaultUserDetailsService") UserDetailsService userDetailsService, BearerTokenService tokenService, BCryptHashingService hashingService, AuthenticationEntryPoint authenticationEntryPoint) {
         this.userDetailsService = userDetailsService;

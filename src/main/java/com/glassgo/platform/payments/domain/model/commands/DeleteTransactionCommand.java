@@ -2,6 +2,8 @@ package com.glassgo.platform.payments.domain.model.commands;
 
 /**
  * Command to delete a Transaction by id.
+ *
+ * @param transactionId the ID of the transaction to delete
  */
 public record DeleteTransactionCommand(Long transactionId) {
     public DeleteTransactionCommand {

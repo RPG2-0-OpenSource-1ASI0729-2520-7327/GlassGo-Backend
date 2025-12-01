@@ -19,6 +19,12 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * REST controller for managing Report resources in the analytics bounded context.
+ * This interface layer component exposes HTTP endpoints for creating and querying reports,
+ * translating between external resource representations and internal domain commands/queries.
+ * It adheres to REST principles and uses assemblers to convert between domain entities and resources.
+ */
 @RestController
 @RequestMapping(value = "/api/v1/reports", produces = MediaType.APPLICATION_JSON_VALUE)
 @Tag(name = "Reports", description = "Report Management Endpoints")
@@ -27,15 +33,24 @@ public class ReportController {
     private final ReportCommandService reportCommandService;
     private final ReportQueryService reportQueryService;
 
+    /**
+     * Constructs the controller with required service dependencies.
+     *
+     * @param reportCommandService the service for handling report commands
+     * @param reportQueryService the service for handling report queries
+     */
     public ReportController(ReportCommandService reportCommandService, ReportQueryService reportQueryService) {
         this.reportCommandService = reportCommandService;
         this.reportQueryService = reportQueryService;
     }
 
     /**
-     * Creates a new report.
-     * @param resource the resource containing the report data
-     * @return the created report resource
+     * Creates a new report based on the provided resource.
+     * Assembles a command from the resource, processes it through the domain service,
+     * and returns the created report as a resource.
+     *
+     * @param resource the resource containing the data for the new report
+     * @return a ResponseEntity containing the created report resource or bad request if creation fails
      */
     @Operation(summary = "Create a new report", description = "Creates a new report with the provided data")
     @ApiResponses(value = {
@@ -54,9 +69,11 @@ public class ReportController {
     }
 
     /**
-     * Gets a report by source ID.
-     * @param sourceId the source ID
-     * @return the report resource
+     * Retrieves a report by its source identifier.
+     * Queries the domain service and assembles the result into a resource for the response.
+     *
+     * @param sourceId the source identifier of the report to retrieve
+     * @return a ResponseEntity containing the report resource or not found if no report exists
      */
     @Operation(summary = "Get report by source ID", description = "Retrieves a report by its source ID")
     @ApiResponses(value = {
@@ -75,9 +92,12 @@ public class ReportController {
     }
 
     /**
-     * Gets all reports by ID (note: this seems to return a list, consider renaming the query).
-     * @param id the report ID
-     * @return the list of report resources
+     * Retrieves reports by their unique identifier.
+     * Note: Returns a list for consistency with the query service, though typically IDs are unique.
+     * Assembles the domain entities into resources for the response.
+     *
+     * @param id the unique identifier of the reports to retrieve
+     * @return a ResponseEntity containing a list of report resources or not found if none exist
      */
     @Operation(summary = "Get reports by ID", description = "Retrieves reports by ID")
     @ApiResponses(value = {

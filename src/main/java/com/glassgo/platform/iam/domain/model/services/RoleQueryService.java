@@ -8,23 +8,35 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Role query service
+ * Domain Service for handling role-related queries in the Identity and Access Management (IAM) bounded context.
  * <p>
- *     This interface represents the service that handles the role queries.
+ * This interface defines the contract for executing queries that retrieve role data without modifying
+ * the domain state. It provides read-only access to role information, supporting operations like
+ * role listing and lookup for authorization and user management purposes.
  * </p>
  */
 public interface RoleQueryService {
     /**
-     * Handle get all roles query
-     * @param query the {@link GetAllRolesQuery} query
-     * @return a list of {@link Role} entities
+     * Handles the query to retrieve all available roles in the system.
+     * <p>
+     * This method processes the {@link GetAllRolesQuery} to fetch a complete list of roles,
+     * which can be used for administrative interfaces, role assignment UIs, or validation logic.
+     * </p>
+     *
+     * @param query the {@link GetAllRolesQuery} specifying the retrieval criteria
+     * @return a list of {@link Role} entities representing all roles in the system
      */
     List<Role> handle(GetAllRolesQuery query);
 
     /**
-     * Handle get role by name query
-     * @param query the {@link GetRoleByNameQuery} query
-     * @return an {@link Optional} of {@link Role} entity
+     * Handles the query to retrieve a specific role by its name.
+     * <p>
+     * This method processes the {@link GetRoleByNameQuery} to find a role matching the given
+     * enumerated name. It returns an Optional to handle cases where the role does not exist.
+     * </p>
+     *
+     * @param query the {@link GetRoleByNameQuery} containing the role name to search for
+     * @return an {@link Optional} containing the {@link Role} entity if found, or empty otherwise
      */
     Optional<Role> handle(GetRoleByNameQuery query);
 }

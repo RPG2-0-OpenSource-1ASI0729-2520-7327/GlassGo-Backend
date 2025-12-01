@@ -8,23 +8,39 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
- * This class is responsible for providing the user details to the Spring Security framework.
- * It implements the UserDetailsService interface.
+ * Spring Security UserDetailsService implementation for the Identity and Access Management (IAM) bounded context.
+ * <p>
+ * This service bridges the domain layer with Spring Security by loading user details
+ * from the persistence layer. It retrieves User aggregates by username and converts
+ * them into UserDetails objects for authentication and authorization purposes.
+ * </p>
  */
 @Service(value = "defaultUserDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
 
+    /**
+     * Constructs a UserDetailsServiceImpl with the required repository.
+     *
+     * @param userRepository the repository for user persistence operations
+     */
     public UserDetailsServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     /**
-     * This method is responsible for loading the user details from the database.
-     * @param username The username.
-     * @return The UserDetails object.
-     * @throws UsernameNotFoundException If the user is not found.
+     * Loads user details by username for Spring Security authentication.
+     * <p>
+     * This method queries the user repository for a user with the given username,
+     * converts the domain User aggregate into a UserDetails object, and returns it
+     * for authentication processing. If the user is not found, a UsernameNotFoundException
+     * is thrown.
+     * </p>
+     *
+     * @param username the username of the user to load
+     * @return the UserDetails object containing the user's authentication information
+     * @throws UsernameNotFoundException if no user is found with the given username
      */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

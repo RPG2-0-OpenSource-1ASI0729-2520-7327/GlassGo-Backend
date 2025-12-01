@@ -4,6 +4,9 @@ import com.glassgo.platform.planning.domain.model.valueobjects.DeliveryInfo;
 
 import java.util.List;
 
+/**
+ * Command for creating a new order. Represents the data required to create an order in the system.
+ */
 public record CreateOrderCommand(
     String customerName,
     String customerEmail,

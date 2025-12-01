@@ -14,11 +14,14 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * User command service implementation
+ * Application Service implementation for handling user-related commands in the Identity and Access Management (IAM) bounded context.
  * <p>
- *     This class implements the {@link UserCommandService} interface and provides the implementation for the
- *     {@link SignInCommand} and {@link SignUpCommand} commands.
+ * This service orchestrates user authentication and registration processes, coordinating between
+ * domain services, outbound services (hashing and token generation), and persistence layers.
+ * It implements business logic for sign-in and sign-up operations while ensuring security and data integrity.
  * </p>
+ *
+ * @see UserCommandService
  */
 @Service
 public class UserCommandServiceImpl implements UserCommandService {
@@ -29,6 +32,14 @@ public class UserCommandServiceImpl implements UserCommandService {
 
     private final RoleRepository roleRepository;
 
+    /**
+     * Constructs a new UserCommandServiceImpl with the required dependencies.
+     *
+     * @param userRepository the repository for user persistence operations
+     * @param hashingService the service for password hashing and verification
+     * @param tokenService the service for JWT token generation
+     * @param roleRepository the repository for role persistence operations
+     */
     public UserCommandServiceImpl(UserRepository userRepository, HashingService hashingService, TokenService tokenService, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.hashingService = hashingService;
@@ -37,12 +48,15 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     /**
-     * Handle the sign-in command
+     * Handles the sign-in command to authenticate a user.
      * <p>
-     *     This method handles the {@link SignInCommand} command and returns the user and the token.
+     * This method processes the {@link SignInCommand} by verifying the user's credentials against
+     * the stored data. It checks for user existence, validates the password using the hashing service,
+     * and generates a JWT token upon successful authentication.
      * </p>
+     *
      * @param command the sign-in command containing the username and password
-     * @return and optional containing the user matching the username and the generated token
+     * @return an optional containing an {@link ImmutablePair} of the authenticated user and JWT token, or empty if authentication fails
      * @throws RuntimeException if the user is not found or the password is invalid
      */
     @Override
@@ -57,12 +71,16 @@ public class UserCommandServiceImpl implements UserCommandService {
     }
 
     /**
-     * Handle the sign-up command
+     * Handles the sign-up command to register a new user.
      * <p>
-     *     This method handles the {@link SignUpCommand} command and returns the user.
+     * This method processes the {@link SignUpCommand} by validating uniqueness of the username,
+     * resolving the provided roles from the repository, hashing the password, and persisting the new user.
+     * It ensures that all referenced roles exist before creating the user account.
      * </p>
-     * @param command the sign-up command containing the username and password
-     * @return the created user
+     *
+     * @param command the sign-up command containing the username, password, and roles
+     * @return an optional containing the newly created user, or empty if registration fails
+     * @throws RuntimeException if the username already exists or a referenced role is not found
      */
     @Override
     public Optional<User> handle(SignUpCommand command) {

@@ -33,6 +33,11 @@ public class SubscriptionPlan extends AuditableAbstractAggregateRoot<Subscriptio
         this.durationMonths = null;
     }
 
+    /**
+     * Constructs a new SubscriptionPlan from the given command.
+     *
+     * @param command the command containing subscription plan details
+     */
     public SubscriptionPlan(CreateSubscriptionPlanCommand command) {
         this.name = command.name();
         this.description = command.description();
@@ -40,6 +45,12 @@ public class SubscriptionPlan extends AuditableAbstractAggregateRoot<Subscriptio
         this.durationMonths = command.durationMonths();
     }
 
+    /**
+     * Updates the subscription plan information based on the given command.
+     *
+     * @param command the command containing updated subscription plan details
+     * @return the updated subscription plan
+     */
     public SubscriptionPlan updateInformation(UpdateSubscriptionPlanCommand command) {
         this.name = command.name();
         this.description = command.description();

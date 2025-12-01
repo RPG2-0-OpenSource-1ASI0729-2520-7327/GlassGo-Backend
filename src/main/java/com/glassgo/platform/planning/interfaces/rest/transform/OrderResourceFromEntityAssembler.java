@@ -6,6 +6,10 @@ import com.glassgo.platform.planning.interfaces.rest.resources.OrderResource;
 
 import java.util.stream.Collectors;
 
+/**
+ * Assembler class for transforming Order domain entities into OrderResource objects.
+ * Used in the REST layer to convert domain objects to resources for API responses.
+ */
 public class OrderResourceFromEntityAssembler {
 
     public static OrderResource toResourceFromEntity(Order order) {

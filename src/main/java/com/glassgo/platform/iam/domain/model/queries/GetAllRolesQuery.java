@@ -1,9 +1,11 @@
 package com.glassgo.platform.iam.domain.model.queries;
 
 /**
- * Get all roles query
+ * Query to retrieve all roles in the Identity and Access Management (IAM) bounded context.
  * <p>
- *     This class represents the query to get all the roles in the system.
+ * This record represents a query to fetch a collection of all available roles from the
+ * system. It is used by the application service to obtain role data for display or
+ * administrative purposes, such as populating UI elements or validating user permissions.
  * </p>
  */
 public record GetAllRolesQuery() {

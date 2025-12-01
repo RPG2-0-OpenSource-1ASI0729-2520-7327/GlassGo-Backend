@@ -19,10 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * This class is a REST controller that exposes the users resource.
- * It includes the following operations:
- * - GET /api/v1/users: returns all the users
- * - GET /api/v1/users/{userId}: returns the user with the given id
+ * REST controller for managing user resources in the IAM bounded context.
+ * This interface layer component provides read-only endpoints for retrieving user information,
+ * supporting queries for individual users and collections. It transforms domain entities
+ * into resource representations, ensuring that sensitive domain details are not exposed
+ * to external clients while adhering to DDD separation of concerns.
  **/
 @RestController
 @RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -30,6 +31,11 @@ import java.util.List;
 public class UsersController {
     private final UserQueryService userQueryService;
 
+    /**
+     * Constructs the users controller with the required query service.
+     *
+     * @param userQueryService the service handling user queries
+     */
     public UsersController(UserQueryService userQueryService) {
         this.userQueryService = userQueryService;
     }

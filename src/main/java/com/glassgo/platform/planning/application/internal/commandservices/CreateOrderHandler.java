@@ -10,6 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
+/**
+ * CreateOrderHandler is responsible for handling order-related commands such as
+ * creating a new order and submitting an existing order. It interacts with the
+ * OrderRepository to persist order data and ensure the integrity of order operations.
+ */
 @Service
 public class CreateOrderHandler {
 
@@ -19,6 +24,12 @@ public class CreateOrderHandler {
         this.orderRepository = orderRepository;
     }
 
+    /**
+     * Handles the creation of a new order.
+     *
+     * @param command the command containing order details
+     * @return the created Order
+     */
     @Transactional
     public Order handle(CreateOrderCommand command) {
         // Generate unique order number
@@ -53,6 +64,12 @@ public class CreateOrderHandler {
         return orderRepository.save(order);
     }
 
+    /**
+     * Handles the submission of an existing order.
+     *
+     * @param command the command containing the order ID
+     * @return the submitted Order
+     */
     @Transactional
     public Order handle(SubmitOrderCommand command) {
         Order order = orderRepository.findById(command.orderId())

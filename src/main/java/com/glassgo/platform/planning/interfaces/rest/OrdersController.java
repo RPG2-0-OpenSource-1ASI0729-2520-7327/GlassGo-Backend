@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * REST controller for managing orders in the planning domain.
+ * Provides endpoints for creating and retrieving orders.
+ */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping(value = "/api/v1/orders", produces = "application/json")

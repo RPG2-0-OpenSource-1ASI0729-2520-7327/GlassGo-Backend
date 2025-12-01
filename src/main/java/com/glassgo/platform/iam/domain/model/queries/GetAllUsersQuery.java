@@ -1,9 +1,11 @@
 package com.glassgo.platform.iam.domain.model.queries;
 
 /**
- * Get all users query
+ * Query to retrieve all users in the Identity and Access Management (IAM) bounded context.
  * <p>
- *     This class represents the query to get all the users in the system.
+ * This record represents a query to fetch a collection of all user aggregates from the
+ * system. It is used by the application service for administrative tasks, such as user
+ * management dashboards or reporting, ensuring that sensitive data is handled appropriately.
  * </p>
  */
 public record GetAllUsersQuery() {

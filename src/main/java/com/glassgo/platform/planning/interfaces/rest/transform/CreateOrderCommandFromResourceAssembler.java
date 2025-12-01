@@ -8,6 +8,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.stream.Collectors;
 
+/**
+ * Assembler class for transforming CreateOrderResource into CreateOrderCommand.
+ * Used in the REST layer to convert incoming resources to domain commands.
+ */
 public class CreateOrderCommandFromResourceAssembler {
 
     public static CreateOrderCommand toCommandFromResource(CreateOrderResource resource) {

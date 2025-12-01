@@ -8,11 +8,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/**
+ * Application service implementation for handling report creation commands.
+ * This service acts as an intermediary between the domain layer and infrastructure,
+ * orchestrating the creation of reports while enforcing application-level rules
+ * such as uniqueness constraints. It implements the domain's ReportCommandService interface.
+ */
 @Service
 public class ReportCommandServiceimpl implements ReportCommandService {
 
     private final ReportRepository reportRepository;
 
+    /**
+     * Constructs the command service with the required repository dependency.
+     *
+     * @param reportRepository the repository for persisting reports
+     */
     public ReportCommandServiceimpl(ReportRepository reportRepository) {
         this.reportRepository = reportRepository;
     }

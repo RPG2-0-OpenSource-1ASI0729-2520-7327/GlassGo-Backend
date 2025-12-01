@@ -22,8 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST controller for managing authentication.
- * This controller exposes endpoints for user sign-in and sign-up.
+ * REST controller for handling authentication operations in the IAM bounded context.
+ * This interface layer component provides endpoints for user sign-in and sign-up,
+ * facilitating secure access to the system. It translates resource representations
+ * into domain commands and assembles responses from domain entities, maintaining
+ * separation between external interfaces and internal domain logic.
  */
 @RestController
 @RequestMapping(value = "/api/v1/authentication", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -31,6 +34,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
     private final UserCommandService userCommandService;
 
+    /**
+     * Constructs the authentication controller with the required command service.
+     *
+     * @param userCommandService the service handling user authentication commands
+     */
     public AuthenticationController(UserCommandService userCommandService) {
         this.userCommandService = userCommandService;
     }

@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- *  Roles Controller
- *  This controller is responsible for handling all the requests related to roles
+ * REST controller for managing role resources in the IAM bounded context.
+ * This interface layer component provides endpoints for retrieving role information,
+ * supporting queries for role collections. It assembles domain value objects into
+ * resource representations, maintaining separation between domain and interface layers
+ * in accordance with DDD principles.
  */
 @RestController
 @RequestMapping(value = "/ap/v1/roles", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -26,6 +29,11 @@ import java.util.List;
 public class RolesController {
     private final RoleQueryService roleQueryService;
 
+    /**
+     * Constructs the roles controller with the required query service.
+     *
+     * @param roleQueryService the service handling role queries
+     */
     public RolesController(RoleQueryService roleQueryService) {
         this.roleQueryService = roleQueryService;
     }

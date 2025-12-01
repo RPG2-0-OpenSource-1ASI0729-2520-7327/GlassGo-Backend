@@ -8,24 +8,37 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * This interface is responsible for providing the Role entity related operations.
- * It extends the JpaRepository interface.
+ * Repository interface for Role entity persistence operations in the Identity and Access Management (IAM) bounded context.
+ * <p>
+ * This interface provides data access methods for Role entities, extending JpaRepository
+ * for standard CRUD operations. It includes custom query methods for role lookup and
+ * existence checks, supporting the domain services' persistence needs.
+ * </p>
  */
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
     /**
-     * This method is responsible for finding the role by name.
-     * @param name The role name.
-     * @return The role object.
+     * Finds a role by its enumerated name.
+     * <p>
+     * This method queries the database for a role matching the provided Roles enum value,
+     * useful for role validation and assignment operations.
+     * </p>
+     *
+     * @param name the enumerated name of the role to find
+     * @return an Optional containing the Role if found, or empty otherwise
      */
     Optional<Role> findByName(Roles name);
 
     /**
-     * This method is responsible for checking if the role exists by name.
-     * @param name The role name.
-     * @return True if the role exists, false otherwise.
+     * Checks if a role exists by its enumerated name.
+     * <p>
+     * This method verifies the existence of a role in the database without retrieving
+     * the full entity, optimizing for existence checks during role seeding or validation.
+     * </p>
+     *
+     * @param name the enumerated name of the role to check
+     * @return true if a role with the given name exists, false otherwise
      */
     boolean existsByName(Roles name);
-
 }

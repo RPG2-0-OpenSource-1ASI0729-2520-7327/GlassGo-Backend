@@ -1,12 +1,23 @@
 package com.glassgo.platform.analytics.interfaces.rest.resources;
 
+import java.time.LocalDateTime;
+
 /**
- * Resource representation for creating a new Report in the analytics bounded context.
- * This record encapsulates the data required to initiate the creation of a report via REST API,
- * serving as the external contract for report creation requests. It is used by assemblers
- * to transform into domain commands, maintaining separation between interface and domain layers.
+ * Resource for creating a new Order Tracking Report.
+ * <p>
+ * This record encapsulates the specific timestamps related to an order's lifecycle,
+ * allowing clients to submit detailed tracking information.
+ * </p>
  *
- * @param sourceId the unique identifier of the source associated with the report
+ * @param orderId            The unique identifier of the order being tracked.
+ * @param createdAt          The timestamp when the order was initially created.
+ * @param packagingStartedAt The timestamp when the order started being packaged.
+ * @param shippedAt          The timestamp when the order was shipped/dispatched.
+ * @param receivedAt         The timestamp when the order was received by the customer.
  */
 public record CreateReportResource(
-        String sourceId) {}
+        String orderId,
+        LocalDateTime createdAt,
+        LocalDateTime packagingStartedAt,
+        LocalDateTime shippedAt,
+        LocalDateTime receivedAt) {}

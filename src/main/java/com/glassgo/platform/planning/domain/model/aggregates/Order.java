@@ -1,6 +1,7 @@
 package com.glassgo.platform.planning.domain.model.aggregates;
 
 import com.glassgo.platform.planning.domain.model.entities.OrderItem;
+import com.glassgo.platform.planning.domain.model.entities.OrderStatusHistory;
 import com.glassgo.platform.planning.domain.model.valueobjects.DeliveryInfo;
 import com.glassgo.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
@@ -43,6 +44,9 @@ public class Order extends AuditableAbstractAggregateRoot<Order> {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<>();
 
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private List<OrderStatusHistory> statusHistory = new ArrayList<>();
+
     @Column(precision = 10, scale = 2)
     private BigDecimal totalAmount;
 
@@ -68,6 +72,7 @@ public class Order extends AuditableAbstractAggregateRoot<Order> {
         this.deliveryInfo = deliveryInfo;
         this.status = OrderStatus.PENDING;
         this.totalAmount = BigDecimal.ZERO;
+        this.statusHistory.add(new OrderStatusHistory(this, OrderStatus.PENDING));
     }
 
     /**
@@ -111,6 +116,7 @@ public class Order extends AuditableAbstractAggregateRoot<Order> {
             throw new IllegalStateException("Cannot submit an order without items");
         }
         this.status = OrderStatus.SUBMITTED;
+        this.statusHistory.add(new OrderStatusHistory(this, OrderStatus.SUBMITTED));
     }
 
     /**
@@ -124,6 +130,7 @@ public class Order extends AuditableAbstractAggregateRoot<Order> {
             throw new IllegalStateException("Can only confirm submitted orders");
         }
         this.status = OrderStatus.CONFIRMED;
+        this.statusHistory.add(new OrderStatusHistory(this, OrderStatus.CONFIRMED));
     }
 
     /**
@@ -137,6 +144,7 @@ public class Order extends AuditableAbstractAggregateRoot<Order> {
             throw new IllegalStateException("Cannot cancel delivered or already cancelled orders");
         }
         this.status = OrderStatus.CANCELLED;
+        this.statusHistory.add(new OrderStatusHistory(this, OrderStatus.CANCELLED));
     }
 
     /**
@@ -150,6 +158,7 @@ public class Order extends AuditableAbstractAggregateRoot<Order> {
             throw new IllegalStateException("Can only deliver confirmed orders");
         }
         this.status = OrderStatus.DELIVERED;
+        this.statusHistory.add(new OrderStatusHistory(this, OrderStatus.DELIVERED));
     }
 
     public enum OrderStatus {

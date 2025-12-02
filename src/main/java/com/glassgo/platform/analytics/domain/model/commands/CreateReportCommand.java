@@ -1,17 +1,30 @@
 package com.glassgo.platform.analytics.domain.model.commands;
 
+import java.time.LocalDateTime;
+
 /**
- * Command representing the intent to create a new Report aggregate.
- * In the context of Command Query Responsibility Segregation (CQRS), this command
- * encapsulates the data required to initialize a report, ensuring validation
- * and immutability of the creation parameters.
+ * Command to create a new Order Tracking Report.
+ * <p>
+ * This command carries the essential timestamps for an order's lifecycle,
+ * used to create a new report in the analytics domain.
+ * </p>
  *
- * @param sourceId the unique identifier of the source associated with the report
+ * @param orderId            The unique identifier of the order.
+ * @param createdAt          The timestamp when the order was created.
+ * @param packagingStartedAt The timestamp when packaging began.
+ * @param shippedAt          The timestamp when the order was shipped.
+ * @param receivedAt         The timestamp when the order was received.
  */
-public record CreateReportCommand(String sourceId) {
+public record CreateReportCommand(
+        String orderId,
+        LocalDateTime createdAt,
+        LocalDateTime packagingStartedAt,
+        LocalDateTime shippedAt,
+        LocalDateTime receivedAt) {
     public CreateReportCommand {
-        if (sourceId == null || sourceId.isBlank()) {
-            throw new IllegalArgumentException("sourceId must not be null or blank");
+        if (orderId == null || orderId.isBlank()) {
+            throw new IllegalArgumentException("orderId must not be null or blank");
         }
+        // Timestamps can be null if not yet available, so no validation here.
     }
 }

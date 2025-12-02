@@ -10,9 +10,11 @@ import java.util.Optional;
 
 /**
  * Application service implementation for handling report creation commands.
+ * <p>
  * This service acts as an intermediary between the domain layer and infrastructure,
- * orchestrating the creation of reports while enforcing application-level rules
- * such as uniqueness constraints. It implements the domain's ReportCommandService interface.
+ * orchestrating the creation of reports while enforcing application-level rules.
+ * It implements the domain's {@link ReportCommandService} interface.
+ * </p>
  */
 @Service
 public class ReportCommandServiceimpl implements ReportCommandService {
@@ -22,20 +24,24 @@ public class ReportCommandServiceimpl implements ReportCommandService {
     /**
      * Constructs the command service with the required repository dependency.
      *
-     * @param reportRepository the repository for persisting reports
+     * @param reportRepository The repository for persisting reports.
      */
     public ReportCommandServiceimpl(ReportRepository reportRepository) {
         this.reportRepository = reportRepository;
     }
 
+    /**
+     * Handles the {@link CreateReportCommand} to create a new order tracking report.
+     * <p>
+     * This method creates a new {@link Report} entity using the data from the command
+     * and persists it to the database.
+     * </p>
+     *
+     * @param command The command containing the data for the new report.
+     * @return An {@link Optional} containing the created {@link Report} if successful.
+     */
     @Override
     public Optional<Report> handle(CreateReportCommand command) {
-        // Check if a report with the same sourceId already exists
-        if (reportRepository.findBySourceId(command.sourceId()).isPresent()) {
-            throw new IllegalArgumentException("Report with sourceId " + command.sourceId() + " already exists");
-        }
-
-        // Create and save the new report
         var report = new Report(command);
         var savedReport = reportRepository.save(report);
         return Optional.of(savedReport);

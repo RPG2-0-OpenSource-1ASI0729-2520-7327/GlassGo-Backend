@@ -1,6 +1,6 @@
 package com.glassgo.platform.analytics.domain.model.aggregates;
 
-import com.glassgo.platform.analytics.domain.model.commands.CreateReportCommand;
+import com.glassgo.platform.analytics.domain.model.commands.CreateReportCommand; // This will need to be updated later
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
- * Aggregate root representing an Order Tracking Report in the analytics domain.
+ * Aggregate root representing an Order Tracking Record in the analytics domain.
  * <p>
  * This entity stores key timestamps related to an order's lifecycle,
  * providing a detailed record of its journey.
@@ -23,7 +23,7 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor // Required for JPA
-public class Report extends AbstractAggregateRoot<Report> {
+public class Record extends AbstractAggregateRoot<Record> { // Renamed from Report to Record
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,19 +46,19 @@ public class Report extends AbstractAggregateRoot<Report> {
 
     @Column(nullable = false, updatable = false)
     @CreatedDate
-    private Date reportGeneratedAt; // Timestamp when this report entity was created
+    private Date reportGeneratedAt; // Timestamp when this record entity was created
 
     @Column(nullable = false)
     @LastModifiedDate
-    private Date reportUpdatedAt; // Timestamp when this report entity was last updated
+    private Date reportUpdatedAt; // Timestamp when this record entity was last updated
 
     /**
-     * Constructs a new Report aggregate from the given command.
-     * Initializes the report with the order tracking timestamps provided in the command.
+     * Constructs a new Record aggregate from the given command.
+     * Initializes the record with the order tracking timestamps provided in the command.
      *
-     * @param command The command containing the data to create the report.
+     * @param command The command containing the data to create the record.
      */
-    public Report(CreateReportCommand command) {
+    public Record(CreateReportCommand command) { // Constructor now takes CreateReportCommand
         this.orderId = command.orderId();
         this.createdAt = command.createdAt();
         this.packagingStartedAt = command.packagingStartedAt();
@@ -67,7 +67,7 @@ public class Report extends AbstractAggregateRoot<Report> {
     }
 
     /**
-     * Constructor for creating a Report with specific tracking details.
+     * Constructor for creating a Record with specific tracking details.
      *
      * @param orderId            The unique identifier of the order.
      * @param createdAt          The timestamp when the order was created.
@@ -75,7 +75,7 @@ public class Report extends AbstractAggregateRoot<Report> {
      * @param shippedAt          The timestamp when the order was shipped.
      * @param receivedAt         The timestamp when the order was received.
      */
-    public Report(String orderId, LocalDateTime createdAt, LocalDateTime packagingStartedAt, LocalDateTime shippedAt, LocalDateTime receivedAt) {
+    public Record(String orderId, LocalDateTime createdAt, LocalDateTime packagingStartedAt, LocalDateTime shippedAt, LocalDateTime receivedAt) {
         this.orderId = orderId;
         this.createdAt = createdAt;
         this.packagingStartedAt = packagingStartedAt;

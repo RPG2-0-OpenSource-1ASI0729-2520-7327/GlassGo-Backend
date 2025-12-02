@@ -1,10 +1,10 @@
 package com.glassgo.platform.analytics.application.internal.queryservices;
 
-import com.glassgo.platform.analytics.domain.model.aggregates.Report;
+import com.glassgo.platform.analytics.domain.model.aggregates.Record; // Changed from Report to Record
 import com.glassgo.platform.analytics.domain.model.queries.GetReportByIdQuery;
 import com.glassgo.platform.analytics.domain.model.queries.GetReportByOrderIdQuery; // Updated import
 import com.glassgo.platform.analytics.domain.services.ReportQueryService;
-import com.glassgo.platform.analytics.infrastructure.persistence.jpa.ReportRepository;
+import com.glassgo.platform.analytics.infrastructure.persistence.jpa.ReportRepository; // This will need to be updated later
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,14 +21,14 @@ import java.util.Optional;
 @Service
 public class ReportQueryServiceImpl implements ReportQueryService {
 
-    private final ReportRepository reportRepository;
+    private final ReportRepository reportRepository; // This will need to be updated later
 
     /**
      * Constructs the query service with the required repository dependency.
      *
      * @param reportRepository The repository for retrieving reports.
      */
-    public ReportQueryServiceImpl(ReportRepository reportRepository) {
+    public ReportQueryServiceImpl(ReportRepository reportRepository) { // This will need to be updated later
         this.reportRepository = reportRepository;
     }
 
@@ -36,11 +36,11 @@ public class ReportQueryServiceImpl implements ReportQueryService {
      * Handles the {@link GetReportByIdQuery} to retrieve a report by its unique identifier.
      *
      * @param query The query containing the report ID.
-     * @return A list containing the report if found, or an empty list otherwise.
+     * @return A list containing the record if found, or an empty list otherwise.
      */
     @Override
-    public List<Report> handle(GetReportByIdQuery query) {
-        // Return a list containing the report if found, or empty list if not found
+    public List<Record> handle(GetReportByIdQuery query) { // Changed from Report to Record
+        // Return a list containing the record if found, or empty list if not found
         return reportRepository.findById(query.id())
                 .map(List::of)
                 .orElse(List.of());
@@ -50,10 +50,10 @@ public class ReportQueryServiceImpl implements ReportQueryService {
      * Handles the {@link GetReportByOrderIdQuery} to retrieve a report by its associated order identifier.
      *
      * @param query The query containing the order ID.
-     * @return An {@link Optional} containing the report if found, or empty otherwise.
+     * @return An {@link Optional} containing the record if found, or empty otherwise.
      */
     @Override
-    public Optional<Report> handle(GetReportByOrderIdQuery query) {
+    public Optional<Record> handle(GetReportByOrderIdQuery query) { // Changed from Report to Record
         return reportRepository.findByOrderId(query.orderId()); // Updated method call
     }
 }

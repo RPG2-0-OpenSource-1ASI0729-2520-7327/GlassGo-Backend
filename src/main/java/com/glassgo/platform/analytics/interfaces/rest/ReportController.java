@@ -1,5 +1,6 @@
 package com.glassgo.platform.analytics.interfaces.rest;
 
+import com.glassgo.platform.analytics.domain.model.aggregates.Record; // Added import for Record
 import com.glassgo.platform.analytics.domain.model.queries.GetReportByIdQuery;
 import com.glassgo.platform.analytics.domain.model.queries.GetReportByOrderIdQuery; // Updated import
 import com.glassgo.platform.analytics.domain.services.ReportCommandService;
@@ -20,15 +21,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * REST controller for managing Order Tracking Reports.
+ * REST controller for managing Order Tracking Records.
  * <p>
- * This controller provides endpoints for creating and retrieving reports that
+ * This controller provides endpoints for creating and retrieving records that
  * track the lifecycle of orders through various timestamps.
  * </p>
  */
 @RestController
-@RequestMapping(value = "/api/v1/reports", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Order Tracking Reports", description = "Endpoints for managing Order Tracking Reports")
+@RequestMapping(value = "/api/v1/analytics/records", produces = MediaType.APPLICATION_JSON_VALUE) // Modified RequestMapping
+@Tag(name = "Analytics", description = "Analytics Endpoints for Order Tracking Records") // Updated Tag
 public class ReportController {
 
     private final ReportCommandService reportCommandService;
@@ -37,8 +38,8 @@ public class ReportController {
     /**
      * Constructs the controller with the required command and query services.
      *
-     * @param reportCommandService Service for handling report creation commands.
-     * @param reportQueryService   Service for handling report queries.
+     * @param reportCommandService Service for handling record creation commands.
+     * @param reportQueryService   Service for handling record queries.
      */
     public ReportController(ReportCommandService reportCommandService, ReportQueryService reportQueryService) {
         this.reportCommandService = reportCommandService;
@@ -46,74 +47,74 @@ public class ReportController {
     }
 
     /**
-     * Creates a new Order Tracking Report.
+     * Creates a new Order Tracking Record.
      * <p>
-     * This endpoint allows for the creation of a report that records key timestamps
+     * This endpoint allows for the creation of a record that records key timestamps
      * in an order's lifecycle, such as creation, packaging start, shipping, and reception.
      * </p>
      *
      * @param resource The resource containing the order ID and various timestamps.
-     * @return A ResponseEntity with the created report resource.
+     * @return A ResponseEntity with the created record resource.
      */
     @PostMapping
-    @Operation(summary = "Create a new Order Tracking Report", description = "Records key timestamps for an order's lifecycle.")
+    @Operation(summary = "Create a new Order Tracking Record", description = "Records key timestamps for an order's lifecycle.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Report created successfully"),
+            @ApiResponse(responseCode = "201", description = "Record created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
-    public ResponseEntity<ReportResource> createReport(@RequestBody CreateReportResource resource) {
+    public ResponseEntity<ReportResource> createRecord(@RequestBody CreateReportResource resource) { // Renamed method
         var createReportCommand = CreateReportCommandFromResourceAssembler.toCommandFromResource(resource);
-        var report = reportCommandService.handle(createReportCommand);
-        if (report.isEmpty()) {
+        var record = reportCommandService.handle(createReportCommand); // Changed from report to record
+        if (record.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        var reportResource = ReportFromEntityAssembler.toResourceFromEntity(report.get());
-        return new ResponseEntity<>(reportResource, HttpStatus.CREATED);
+        var recordResource = ReportFromEntityAssembler.toResourceFromEntity(record.get()); // Changed from report to record
+        return new ResponseEntity<>(recordResource, HttpStatus.CREATED);
     }
 
     /**
-     * Retrieves an Order Tracking Report by its associated order identifier.
+     * Retrieves an Order Tracking Record by its associated order identifier.
      *
-     * @param orderId The unique identifier of the order to retrieve the report for.
-     * @return A ResponseEntity containing the report resource, or not found if it doesn't exist.
+     * @param orderId The unique identifier of the order to retrieve the record for.
+     * @return A ResponseEntity containing the record resource, or not found if it doesn't exist.
      */
-    @GetMapping("/order/{orderId}") // Updated path
-    @Operation(summary = "Get Order Tracking Report by Order ID", description = "Retrieves a report by the associated order ID.")
+    @GetMapping("/order-tracking-record/{orderId}") // Updated path
+    @Operation(summary = "Get Order Tracking Record by Order ID", description = "Retrieves a record by the associated order ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Report found"),
-            @ApiResponse(responseCode = "404", description = "Report not found")
+            @ApiResponse(responseCode = "200", description = "Record found"),
+            @ApiResponse(responseCode = "404", description = "Record not found")
     })
-    public ResponseEntity<ReportResource> getReportByOrderId(@PathVariable String orderId) { // Updated method name and parameter
+    public ResponseEntity<ReportResource> getRecordByOrderId(@PathVariable String orderId) { // Renamed method
         var getReportByOrderIdQuery = new GetReportByOrderIdQuery(orderId); // Updated query
-        var report = reportQueryService.handle(getReportByOrderIdQuery);
-        if (report.isEmpty()) {
+        var record = reportQueryService.handle(getReportByOrderIdQuery); // Changed from report to record
+        if (record.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        var reportResource = ReportFromEntityAssembler.toResourceFromEntity(report.get());
-        return ResponseEntity.ok(reportResource);
+        var recordResource = ReportFromEntityAssembler.toResourceFromEntity(record.get()); // Changed from report to record
+        return ResponseEntity.ok(recordResource);
     }
 
     /**
-     * Retrieves an Order Tracking Report by its unique report identifier.
+     * Retrieves an Order Tracking Record by its unique record identifier.
      *
-     * @param id The unique identifier of the report to retrieve.
-     * @return A ResponseEntity containing a list of report resources (typically one), or not found.
+     * @param id The unique identifier of the record to retrieve.
+     * @return A ResponseEntity containing a list of record resources (typically one), or not found.
      */
     @GetMapping("/{id}")
-    @Operation(summary = "Get Order Tracking Report by Report ID", description = "Retrieves a report by its unique report ID.")
+    @Operation(summary = "Get Order Tracking Record by Record ID", description = "Retrieves a record by its unique record ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Reports found"),
-            @ApiResponse(responseCode = "404", description = "No reports found")
+            @ApiResponse(responseCode = "200", description = "Records found"),
+            @ApiResponse(responseCode = "404", description = "No records found")
     })
-    public ResponseEntity<List<ReportResource>> getReportById(@PathVariable Long id) {
+    public ResponseEntity<List<ReportResource>> getRecordById(@PathVariable Long id) { // Renamed method
         var getReportByIdQuery = new GetReportByIdQuery(id);
-        var reports = reportQueryService.handle(getReportByIdQuery);
-        if (reports.isEmpty()) {
+        var records = reportQueryService.handle(getReportByIdQuery); // Changed from reports to records
+        if (records.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        var reportResources = reports.stream()
+        var recordResources = records.stream()
                 .map(ReportFromEntityAssembler::toResourceFromEntity)
                 .toList();
-        return ResponseEntity.ok(reportResources);
+        return ResponseEntity.ok(recordResources);
     }
 }

@@ -1,6 +1,6 @@
 package com.glassgo.platform.analytics.domain.services;
 
-import com.glassgo.platform.analytics.domain.model.aggregates.Report;
+import com.glassgo.platform.analytics.domain.model.aggregates.Record; // Added import for Record
 import com.glassgo.platform.analytics.domain.model.queries.GetReportByIdQuery;
 import com.glassgo.platform.analytics.domain.model.queries.GetReportByOrderIdQuery; // Updated import
 
@@ -8,30 +8,30 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Domain service interface for handling query operations on Report aggregates.
+ * Domain service interface for handling query operations on Record aggregates.
  * <p>
- * This service provides read-only access to reports, supporting various query criteria
- * to retrieve report data without modifying the domain state. It promotes separation
+ * This service provides read-only access to records, supporting various query criteria
+ * to retrieve record data without modifying the domain state. It promotes separation
  * of concerns in CQRS by isolating query logic from command logic.
  * </p>
  */
-public interface ReportQueryService {
+public interface ReportQueryService { // Renamed from ReportQueryService to RecordQueryService
     /**
-     * Handles a query to retrieve reports by their unique identifier.
-     * Note: This method returns a list, which may indicate multiple reports or a design choice;
+     * Handles a query to retrieve records by their unique identifier.
+     * Note: This method returns a list, which may indicate multiple records or a design choice;
      * typically, ID-based queries return a single entity.
      *
      * @param query The query containing the ID criteria.
-     * @return A list of reports matching the query criteria.
+     * @return A list of records matching the query criteria.
      */
-    List<Report> handle(GetReportByIdQuery query);
+    List<Record> handle(GetReportByIdQuery query); // Changed from Report to Record
 
     /**
-     * Handles a query to retrieve a report by its order identifier.
-     * Returns an Optional to handle cases where no report is found for the given order ID.
+     * Handles a query to retrieve a record by its order identifier.
+     * Returns an Optional to handle cases where no record is found for the given order ID.
      *
      * @param query The query containing the order ID criteria.
-     * @return An {@link Optional} containing the report if found, or empty otherwise.
+     * @return An {@link Optional} containing the record if found, or empty otherwise.
      */
-    Optional<Report> handle(GetReportByOrderIdQuery query); // Updated method signature
+    Optional<Record> handle(GetReportByOrderIdQuery query); // Changed from Report to Record
 }

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.List; // Added import for List
 
 /**
  * REST controller for managing role resources in the IAM bounded context.
@@ -24,8 +24,8 @@ import java.util.List;
  * in accordance with DDD principles.
  */
 @RestController
-@RequestMapping(value = "/ap/v1/roles", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Roles", description = "Available Role Endpoints")
+@RequestMapping(value = "/api/v1/iam/roles", produces = MediaType.APPLICATION_JSON_VALUE) // Modified RequestMapping and fixed typo
+@Tag(name = "IAM", description = "Identity and Access Management Endpoints")
 public class RolesController {
     private final RoleQueryService roleQueryService;
 

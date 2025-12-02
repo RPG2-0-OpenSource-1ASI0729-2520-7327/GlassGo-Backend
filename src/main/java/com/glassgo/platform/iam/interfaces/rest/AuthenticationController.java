@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
  * separation between external interfaces and internal domain logic.
  */
 @RestController
-@RequestMapping(value = "/api/v1/authentication", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Authentication", description = "Available Authentication Endpoints")
+@RequestMapping(value = "/api/v1/iam/authentication", produces = MediaType.APPLICATION_JSON_VALUE) // Modified RequestMapping
+@Tag(name = "IAM", description = "Identity and Access Management Endpoints")
 public class AuthenticationController {
     private final UserCommandService userCommandService;
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.List; // Added import for List
 
 /**
  * REST controller for managing user resources in the IAM bounded context.
@@ -26,8 +26,8 @@ import java.util.List;
  * to external clients while adhering to DDD separation of concerns.
  **/
 @RestController
-@RequestMapping(value = "/api/v1/users", produces = MediaType.APPLICATION_JSON_VALUE)
-@Tag(name = "Users", description = "Available User Endpoints")
+@RequestMapping(value = "/api/v1/iam/users", produces = MediaType.APPLICATION_JSON_VALUE) // Modified RequestMapping
+@Tag(name = "IAM", description = "Identity and Access Management Endpoints")
 public class UsersController {
     private final UserQueryService userQueryService;
 

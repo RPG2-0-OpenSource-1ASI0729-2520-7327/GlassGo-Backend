@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
  */
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping(value = "/api/v1/orders", produces = "application/json")
-@Tag(name = "Orders", description = "Order Management Endpoints")
+@RequestMapping(value = "/api/v1/planning/orders", produces = "application/json") // Modified RequestMapping
+@Tag(name = "Planning", description = "Planning Endpoints for Order Management") // Updated Tag
 public class OrdersController {
 
     private final CreateOrderHandler createOrderHandler;

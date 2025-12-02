@@ -12,13 +12,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Configuration class that exposes the project's OpenAPI (Swagger) definition.
- * <p>
- * The `OpenAPI` bean created here is used by springdoc to generate the API
- * documentation for controllers and resources.
+ * Spring configuration that exposes an OpenAPI description for the application.
+ *
+ * <p>This configuration builds an {@link OpenAPI} bean consumed by Springdoc/OpenAPI
+ * tooling so that API documentation (Swagger UI, OpenAPI JSON/YAML) can be
+ * generated at runtime.</p>
+ *
+ * <p>Values for the title, description and version are injected from
+ * application properties and used to populate the {@link Info} metadata.</p>
  */
 @Configuration
 public class OpenApiConfiguration {
+    // Properties
     @Value("${spring.application.name}")
     String applicationName;
 
@@ -28,8 +33,20 @@ public class OpenApiConfiguration {
     @Value("${documentation.application.version}")
     String applicationVersion;
 
+    // Methods
+
+    /**
+     * Creates the primary {@link OpenAPI} bean describing the API.
+     *
+     * <p>The produced {@code OpenAPI} instance contains basic metadata such as
+     * title, description, version and a reference to external documentation.
+     * Springdoc will pick up this bean and expose OpenAPI endpoints like
+     * {@code /v3/api-docs} and the Swagger UI if configured.</p>
+     *
+     * @return a configured {@link OpenAPI} instance containing application metadata
+     */
     @Bean
-    public OpenAPI glassgoPlatformOpenApi() {
+    public OpenAPI glassGoPlatformOpenApi() { // Renamed method for clarity
 
         // General configuration
 
@@ -40,7 +57,24 @@ public class OpenApiConfiguration {
                         .description(this.applicationDescription)
                         .version(this.applicationVersion)
                         .license(new License().name("Apache 2.0")
-                                .url("https://springdoc.org")));
+                                .url("https://springdoc.org")))
+                .externalDocs(new ExternalDocumentation()
+                        .description("GlassGo Platform Wiki Documentation") // Updated description
+                        .url("https://glassgo-platform.wiki.github.io/docs")); // Updated URL
+
+        // Add a security scheme for Bearer Token
+
+        final String securitySchemeName = "bearerAuth";
+
+        openApi.addSecurityItem(new SecurityRequirement()
+                        .addList(securitySchemeName))
+                .components(new Components()
+                        .addSecuritySchemes(securitySchemeName,
+                                new SecurityScheme()
+                                        .name(securitySchemeName)
+                                        .type(SecurityScheme.Type.HTTP)
+                                        .scheme("bearer")
+                                        .bearerFormat("JWT")));
 
         // Return the OpenAPI configuration object with all the settings
 

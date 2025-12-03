@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Spring Security filter for Bearer token authorization in the Identity and Access Management (IAM) bounded context.
@@ -78,5 +80,26 @@ public class BearerAuthorizationRequestFilter extends OncePerRequestFilter {
             LOGGER.error("Cannot set user authentication: {}", e.getMessage());
         }
         filterChain.doFilter(request, response);
+    }
+
+    /**
+     * Determines whether this filter should be applied to the given request.
+     * <p>
+     * This implementation ensures that the filter is skipped for public authentication endpoints
+     * like sign-in and sign-up, as these do not require a Bearer token.
+     * </p>
+     *
+     * @param request The current HTTP request.
+     * @return {@code true} if the filter should not be applied, {@code false} otherwise.
+     * @throws ServletException if an exception occurs during filter processing.
+     */
+    @Override
+    protected boolean shouldNotFilter(@NonNull HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        List<String> publicPaths = Arrays.asList(
+                "/api/v1/iam/authentication/sign-in",
+                "/api/v1/iam/authentication/sign-up"
+        );
+        return publicPaths.stream().anyMatch(path::startsWith);
     }
 }

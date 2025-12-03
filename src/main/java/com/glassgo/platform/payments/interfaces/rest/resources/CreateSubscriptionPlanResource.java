@@ -1,0 +1,30 @@
+package com.glassgo.platform.payments.interfaces.rest.resources;
+
+/**
+ * Resource used to create a new Subscription Plan via REST API.
+ * <p>
+ * This record represents the request payload for creating plans and validates
+ * required fields in the compact constructor.
+ *
+ * @param name           the name of the plan
+ * @param description    the description of the plan
+ * @param price          the price of the plan
+ * @param durationMonths the duration in months
+ */
+public record CreateSubscriptionPlanResource(
+        String name,
+        String description,
+        Double price,
+        Integer durationMonths
+) {
+    public CreateSubscriptionPlanResource {
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("name cannot be null");
+        if (description == null || description.isBlank())
+            throw new IllegalArgumentException("description cannot be null");
+        if (price == null)
+            throw new IllegalArgumentException("price cannot be null");
+        if (durationMonths == null)
+            throw new IllegalArgumentException("durationMonths cannot be null");
+    }
+}

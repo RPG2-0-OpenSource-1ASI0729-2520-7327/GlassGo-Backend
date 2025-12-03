@@ -1,0 +1,64 @@
+package com.glassgo.platform.payments.domain.model.aggregates;
+
+import com.glassgo.platform.payments.domain.model.commands.CreatePaymentGatewayCommand;
+import com.glassgo.platform.payments.domain.model.commands.UpdatePaymentGatewayCommand;
+import com.glassgo.platform.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import lombok.Getter;
+import org.apache.logging.log4j.util.Strings;
+
+/**
+ * Aggregate representing a configured payment gateway.
+ * <p>
+ * Contains credentials and endpoint information necessary to process
+ * payments. Treat secretKey as sensitive data and avoid logging it.
+ */
+@Entity
+@Getter
+public class PaymentGateway extends AuditableAbstractAggregateRoot<PaymentGateway> {
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "api_url")
+    private String apiUrl;
+
+    @Column(name = "client_id")
+    private String clientId;
+
+    @Column(name = "secret_key")
+    private String secretKey;
+
+    public PaymentGateway() {
+        this.name = Strings.EMPTY;
+        this.apiUrl = Strings.EMPTY;
+        this.clientId = Strings.EMPTY;
+        this.secretKey = Strings.EMPTY;
+    }
+
+    /**
+     * Constructs a new PaymentGateway from the given command.
+     *
+     * @param command the command containing payment gateway details
+     */
+    public PaymentGateway(CreatePaymentGatewayCommand command) {
+        this.name = command.name();
+        this.apiUrl = command.apiUrl();
+        this.clientId = command.clientId();
+        this.secretKey = command.secretKey();
+    }
+
+    /**
+     * Updates the payment gateway information based on the given command.
+     *
+     * @param command the command containing updated payment gateway details
+     * @return the updated payment gateway
+     */
+    public PaymentGateway updateInformation(UpdatePaymentGatewayCommand command) {
+        this.name = command.name();
+        this.apiUrl = command.apiUrl();
+        this.clientId = command.clientId();
+        this.secretKey = command.secretKey();
+        return this;
+    }
+}

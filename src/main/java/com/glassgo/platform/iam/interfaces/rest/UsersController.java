@@ -1,0 +1,82 @@
+package com.glassgo.platform.iam.interfaces.rest;
+
+import com.glassgo.platform.iam.domain.model.queries.GetAllUsersQuery;
+import com.glassgo.platform.iam.domain.model.queries.GetUserByIdQuery;
+import com.glassgo.platform.iam.domain.model.services.UserQueryService;
+import com.glassgo.platform.iam.interfaces.rest.resources.UserResource;
+import com.glassgo.platform.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List; // Added import for List
+
+/**
+ * REST controller for managing user resources in the IAM bounded context.
+ * This interface layer component provides read-only endpoints for retrieving user information,
+ * supporting queries for individual users and collections. It transforms domain entities
+ * into resource representations, ensuring that sensitive domain details are not exposed
+ * to external clients while adhering to DDD separation of concerns.
+ **/
+@RestController
+@RequestMapping(value = "/api/v1/iam/users", produces = MediaType.APPLICATION_JSON_VALUE) // Modified RequestMapping
+@Tag(name = "IAM", description = "Identity and Access Management Endpoints")
+public class UsersController {
+    private final UserQueryService userQueryService;
+
+    /**
+     * Constructs the users controller with the required query service.
+     *
+     * @param userQueryService the service handling user queries
+     */
+    public UsersController(UserQueryService userQueryService) {
+        this.userQueryService = userQueryService;
+    }
+
+    /**
+     * This method returns all the users.
+     * @return a list of user resources
+     * @see UserResource
+     */
+    @GetMapping
+    @Operation(summary = "Get all users", description = "Get all the users available in the system.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Users retrieved successfully."),
+            @ApiResponse(responseCode = "401", description = "Unauthorized.")})
+    public ResponseEntity<List<UserResource>> getAllUsers() {
+        var getAllUsersQuery = new GetAllUsersQuery();
+        var users = userQueryService.handle(getAllUsersQuery);
+        var userResources = users.stream().map(UserResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(userResources);
+    }
+
+    /**
+     * This method returns the user with the given id.
+     * @param userId the user id
+     * @return the user resource with the given id
+     * @throws RuntimeException if the user is not found
+     * @see UserResource
+     */
+    @GetMapping(value = "/{userId}")
+    @Operation(summary = "Get user by id", description = "Get the user with the given id.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User retrieved successfully."),
+            @ApiResponse(responseCode = "404", description = "User not found."),
+            @ApiResponse(responseCode = "401", description = "Unauthorized.")})
+    public ResponseEntity<UserResource> getUserById(@PathVariable Long userId) {
+        var getUserByIdQuery = new GetUserByIdQuery(userId);
+        var user = userQueryService.handle(getUserByIdQuery);
+        if (user.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+        return ResponseEntity.ok(userResource);
+    }
+}

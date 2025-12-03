@@ -1,0 +1,95 @@
+package com.glassgo.platform.iam.interfaces.rest;
+
+import com.glassgo.platform.iam.domain.model.services.UserCommandService;
+import com.glassgo.platform.iam.interfaces.rest.resources.AuthenticatedUserResource;
+import com.glassgo.platform.iam.interfaces.rest.resources.SignInResource;
+import com.glassgo.platform.iam.interfaces.rest.resources.SignUpResource;
+import com.glassgo.platform.iam.interfaces.rest.resources.UserResource;
+import com.glassgo.platform.iam.interfaces.rest.transform.AuthenticatedUserResourceFromEntityAssembler;
+import com.glassgo.platform.iam.interfaces.rest.transform.SignInCommandFromResourceAssembler;
+import com.glassgo.platform.iam.interfaces.rest.transform.SignUpCommandFromResourceAssembler;
+import com.glassgo.platform.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * REST controller for handling authentication operations in the IAM bounded context.
+ * This interface layer component provides endpoints for user sign-in and sign-up,
+ * facilitating secure access to the system. It translates resource representations
+ * into domain commands and assembles responses from domain entities, maintaining
+ * separation between external interfaces and internal domain logic.
+ */
+@RestController
+@RequestMapping(value = "/api/v1/iam/authentication", produces = MediaType.APPLICATION_JSON_VALUE) // Modified RequestMapping
+@Tag(name = "IAM", description = "Identity and Access Management Endpoints")
+public class AuthenticationController {
+    private final UserCommandService userCommandService;
+
+    /**
+     * Constructs the authentication controller with the required command service.
+     *
+     * @param userCommandService the service handling user authentication commands
+     */
+    public AuthenticationController(UserCommandService userCommandService) {
+        this.userCommandService = userCommandService;
+    }
+
+    /**
+     * Handles the user sign-in request.
+     * It receives a sign-in resource, transforms it into a command, and handles it.
+     *
+     * @param signInResource The resource containing the sign-in credentials.
+     * @return A ResponseEntity containing the authenticated user resource, including the JWT token.
+     * @see SignInResource
+     * @see AuthenticatedUserResource
+     */
+    @PostMapping("/sign-in")
+    @Operation(summary = "Sign-in", description = "Sign-in with the provided credentials.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User authenticated successfully."),
+            @ApiResponse(responseCode = "404", description = "User not found.")})
+    public ResponseEntity<AuthenticatedUserResource> signIn(@RequestBody SignInResource signInResource) {
+        var signInCommand = SignInCommandFromResourceAssembler.toCommandFromResource(signInResource);
+        System.out.println("--- INTENTO DE LOGIN RECIBIDO ---");
+        var authenticatedUser = userCommandService.handle(signInCommand);
+        if (authenticatedUser.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        var authenticatedUserResource = AuthenticatedUserResourceFromEntityAssembler.toResourceFromEntity(authenticatedUser.get().getLeft(), authenticatedUser.get().getRight());
+        return ResponseEntity.ok(authenticatedUserResource);
+    }
+
+    /**
+     * Handles the user sign-up request.
+     * It receives a sign-up resource, transforms it into a command, and handles it.
+     *
+     * @param signUpResource The resource containing the user's sign-up information.
+     * @return A ResponseEntity containing the newly created user resource.
+     * @see SignUpResource
+     * @see UserResource
+     */
+    @PostMapping("/sign-up")
+    @Operation(summary = "Sign-up", description = "Sign-up with the provided credentials.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User created successfully."),
+            @ApiResponse(responseCode = "400", description = "Bad request.")})
+    public ResponseEntity<UserResource> signUp(@RequestBody SignUpResource signUpResource) {
+        var signUpCommand = SignUpCommandFromResourceAssembler.toCommandFromResource(signUpResource);
+        var user = userCommandService.handle(signUpCommand);
+        if (user.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+        return new ResponseEntity<>(userResource, HttpStatus.CREATED);
+
+    }
+}

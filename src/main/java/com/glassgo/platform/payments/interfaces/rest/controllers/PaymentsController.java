@@ -4,6 +4,9 @@ import com.glassgo.platform.payments.domain.model.queries.*;
 import com.glassgo.platform.payments.domain.model.services.*;
 import com.glassgo.platform.payments.interfaces.rest.resources.*;
 import com.glassgo.platform.payments.interfaces.rest.transform.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -47,6 +50,11 @@ public class PaymentsController {
     }
 
     // Transaction Endpoints
+    @Operation(summary = "Create a new transaction")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Transaction created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     @PostMapping("/transactions")
     public ResponseEntity<TransactionResource> createTransaction(@RequestBody CreateTransactionResource resource) {
         var createTransactionCommand = CreateTransactionCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -63,6 +71,11 @@ public class PaymentsController {
         return new ResponseEntity<>(transactionResource, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get a transaction by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Transaction found"),
+        @ApiResponse(responseCode = "404", description = "Transaction not found")
+    })
     @GetMapping("/transactions/{transactionId}")
     public ResponseEntity<TransactionResource> getTransactionById(@PathVariable Long transactionId) {
         var getTransactionByIdQuery = new GetTransactionByIdQuery(transactionId);
@@ -74,6 +87,8 @@ public class PaymentsController {
         return ResponseEntity.ok(transactionResource);
     }
 
+    @Operation(summary = "Get all transactions")
+    @ApiResponse(responseCode = "200", description = "Transactions retrieved successfully")
     @GetMapping("/transactions")
     public ResponseEntity<List<TransactionResource>> getAllTransactions() {
         var getAllTransactionsQuery = new GetAllTransactionsQuery();
@@ -85,6 +100,11 @@ public class PaymentsController {
     }
 
     // Subscription Endpoints
+    @Operation(summary = "Create a new subscription")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Subscription created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     @PostMapping("/subscriptions")
     public ResponseEntity<SubscriptionResource> createSubscription(@RequestBody CreateSubscriptionResource resource) {
         var createSubscriptionCommand = CreateSubscriptionCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -101,6 +121,11 @@ public class PaymentsController {
         return new ResponseEntity<>(subscriptionResource, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get a subscription by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Subscription found"),
+        @ApiResponse(responseCode = "404", description = "Subscription not found")
+    })
     @GetMapping("/subscriptions/{subscriptionId}")
     public ResponseEntity<SubscriptionResource> getSubscriptionById(@PathVariable Long subscriptionId) {
         var getSubscriptionByIdQuery = new GetSubscriptionByIdQuery(subscriptionId);
@@ -112,6 +137,8 @@ public class PaymentsController {
         return ResponseEntity.ok(subscriptionResource);
     }
 
+    @Operation(summary = "Get all subscriptions")
+    @ApiResponse(responseCode = "200", description = "Subscriptions retrieved successfully")
     @GetMapping("/subscriptions")
     public ResponseEntity<List<SubscriptionResource>> getAllSubscriptions() {
         var getAllSubscriptionsQuery = new GetAllSubscriptionsQuery();
@@ -123,6 +150,11 @@ public class PaymentsController {
     }
 
     // SubscriptionPlan Endpoints
+    @Operation(summary = "Create a new subscription plan")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Subscription plan created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     @PostMapping("/subscription-plans")
     public ResponseEntity<SubscriptionPlanResource> createSubscriptionPlan(@RequestBody CreateSubscriptionPlanResource resource) {
         var createSubscriptionPlanCommand = CreateSubscriptionPlanCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -139,6 +171,11 @@ public class PaymentsController {
         return new ResponseEntity<>(subscriptionPlanResource, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get a subscription plan by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Subscription plan found"),
+        @ApiResponse(responseCode = "404", description = "Subscription plan not found")
+    })
     @GetMapping("/subscription-plans/{subscriptionPlanId}")
     public ResponseEntity<SubscriptionPlanResource> getSubscriptionPlanById(@PathVariable Long subscriptionPlanId) {
         var getSubscriptionPlanByIdQuery = new GetSubscriptionPlanByIdQuery(subscriptionPlanId);
@@ -150,6 +187,8 @@ public class PaymentsController {
         return ResponseEntity.ok(subscriptionPlanResource);
     }
 
+    @Operation(summary = "Get all subscription plans")
+    @ApiResponse(responseCode = "200", description = "Subscription plans retrieved successfully")
     @GetMapping("/subscription-plans")
     public ResponseEntity<List<SubscriptionPlanResource>> getAllSubscriptionPlans() {
         var getAllSubscriptionPlansQuery = new GetAllSubscriptionPlansQuery();
@@ -161,6 +200,11 @@ public class PaymentsController {
     }
 
     // PaymentGateway Endpoints
+    @Operation(summary = "Create a new payment gateway")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "Payment gateway created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     @PostMapping("/payment-gateways")
     public ResponseEntity<PaymentGatewayResource> createPaymentGateway(@RequestBody CreatePaymentGatewayResource resource) {
         var createPaymentGatewayCommand = CreatePaymentGatewayCommandFromResourceAssembler.toCommandFromResource(resource);
@@ -177,6 +221,11 @@ public class PaymentsController {
         return new ResponseEntity<>(paymentGatewayResource, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get a payment gateway by its ID")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Payment gateway found"),
+        @ApiResponse(responseCode = "404", description = "Payment gateway not found")
+    })
     @GetMapping("/payment-gateways/{paymentGatewayId}")
     public ResponseEntity<PaymentGatewayResource> getPaymentGatewayById(@PathVariable Long paymentGatewayId) {
         var getPaymentGatewayByIdQuery = new GetPaymentGatewayByIdQuery(paymentGatewayId);
@@ -188,6 +237,8 @@ public class PaymentsController {
         return ResponseEntity.ok(paymentGatewayResource);
     }
 
+    @Operation(summary = "Get all payment gateways")
+    @ApiResponse(responseCode = "200", description = "Payment gateways retrieved successfully")
     @GetMapping("/payment-gateways")
     public ResponseEntity<List<PaymentGatewayResource>> getAllPaymentGateways() {
         var getAllPaymentGatewaysQuery = new GetAllPaymentGatewaysQuery();

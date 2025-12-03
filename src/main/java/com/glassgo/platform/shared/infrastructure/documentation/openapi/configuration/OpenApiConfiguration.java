@@ -1,7 +1,6 @@
 package com.glassgo.platform.shared.infrastructure.documentation.openapi.configuration;
 
 import io.swagger.v3.oas.models.Components;
-import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
@@ -39,7 +38,7 @@ public class OpenApiConfiguration {
      * Creates the primary {@link OpenAPI} bean describing the API.
      *
      * <p>The produced {@code OpenAPI} instance contains basic metadata such as
-     * title, description, version and a reference to external documentation.
+     * title, description, and version.
      * Springdoc will pick up this bean and expose OpenAPI endpoints like
      * {@code /v3/api-docs} and the Swagger UI if configured.</p>
      *
@@ -57,10 +56,7 @@ public class OpenApiConfiguration {
                         .description(this.applicationDescription)
                         .version(this.applicationVersion)
                         .license(new License().name("Apache 2.0")
-                                .url("https://springdoc.org")))
-                .externalDocs(new ExternalDocumentation()
-                        .description("GlassGo Platform Wiki Documentation") // Updated description
-                        .url("https://glassgo-platform.wiki.github.io/docs")); // Updated URL
+                                .url("https://springdoc.org")));
 
         // Add a security scheme for Bearer Token
 

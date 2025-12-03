@@ -59,7 +59,7 @@ public class ReportController {
     @PostMapping
     @Operation(summary = "Create a new Order Tracking Record", description = "Records key timestamps for an order's lifecycle.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Record created successfully"),
+            @ApiResponse(responseCode = "200", description = "Record created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data")
     })
     public ResponseEntity<ReportResource> createRecord(@RequestBody CreateReportResource resource) { // Renamed method
@@ -81,7 +81,7 @@ public class ReportController {
     @GetMapping("/order-tracking-record/{orderId}") // Updated path
     @Operation(summary = "Get Order Tracking Record by Order ID", description = "Retrieves a record by the associated order ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Record found"),
+            @ApiResponse(responseCode = "201", description = "Record found"),
             @ApiResponse(responseCode = "404", description = "Record not found")
     })
     public ResponseEntity<ReportResource> getRecordByOrderId(@PathVariable String orderId) { // Renamed method
@@ -103,7 +103,7 @@ public class ReportController {
     @GetMapping("/{id}")
     @Operation(summary = "Get Order Tracking Record by Record ID", description = "Retrieves a record by its unique record ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Records found"),
+            @ApiResponse(responseCode = "201", description = "Records found"),
             @ApiResponse(responseCode = "404", description = "No records found")
     })
     public ResponseEntity<List<ReportResource>> getRecordById(@PathVariable Long id) { // Renamed method
